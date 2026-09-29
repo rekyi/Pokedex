@@ -10,8 +10,21 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header></header>
-    <h1>Pokedex</h1>
+    <header class="pokedex-header">
+      <div class="header-container">
+        <div class="heading">
+          <svg class="poke-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
+            <line x1="2" y1="12" x2="9" y2="12"></line>
+            <line x1="15" y1="12" x2="22" y2="12"></line>
+          </svg>
+          <h1 class="heading-name">Pokédex</h1>
+        </div>
+        <input type="search" class="search-input" placeholder="Pokemon name" aria-label="Searching for Pokemon" />
+      </div>
+    </header>
+
     <script src="assets/js/db.js"></script>
     <script src="assets/js/template.js"></script>
     <script src="script.js"></script>
