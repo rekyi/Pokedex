@@ -1,0 +1,9 @@
+body {
+    background-color: var(--primary-clr);
+    color: white;
+}
+
+header {
+    height: 5rem;
+    background-color: var(--secondary-clr);
+}
