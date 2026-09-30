@@ -20,7 +20,6 @@ async function getPokemonData() {
   const pokemonData = await fetchErrorHandling(url);
   const mapped = pokemonData.results.map(getSinglePokemonDetails);
   const pokemonDetails = await Promise.all(mapped);
-
   console.log(pokemonDetails);
 }
 
