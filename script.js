@@ -1,4 +1,24 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
+const TYPE_TO_TCG_ELEMENT = {
+  normal: "colorless",
+  fire: "fire",
+  water: "water",
+  electric: "electric",
+  grass: "grass",
+  ice: "water",
+  fighting: "fighting",
+  poison: "psychic",
+  ground: "fighting",
+  flying: "colorless",
+  psychic: "psychic",
+  bug: "grass",
+  rock: "fighting",
+  ghost: "psychic",
+  dragon: "dragon",
+  dark: "darkness",
+  steel: "metal",
+  fairy: "fairy",
+};
 
 getPokemonData();
 
@@ -18,7 +38,6 @@ async function getSinglePokemonDetails(pokemon) {
 async function getPokemonData() {
   try {
     toggleLoadingSpinner(true);
-
     const url = `${BASE_URL}?limit=20`;
     const pokemonData = await fetchErrorHandling(url);
     const mapped = pokemonData.results.map(getSinglePokemonDetails);

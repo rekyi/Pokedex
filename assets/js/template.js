@@ -12,7 +12,7 @@ function pokemonGridTemplate() {
 
                 <span class="header-right">
                   <span class="pokemon-hp"></span>
-                  <img class="pokemon-type-icon" src="assets/images/type_icons/" alt="Electric" />
+                  <img class="pokemon-type-icon" src="assets/images/type_icons/" alt="" />
                 </span>
               </span>
 
