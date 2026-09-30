@@ -20,7 +20,10 @@ const TYPE_TO_TCG_ELEMENT = {
   fairy: "fairy",
 };
 
-getPokemonData();
+function init() {
+  getPokemonData();
+}
+init();
 
 async function getSinglePokemonDetails(listEntry) {
   const details = await fetchErrorHandling(listEntry.url);
@@ -44,7 +47,7 @@ async function getPokemonData() {
     const pokemonData = await fetchErrorHandling(url);
     const mapped = pokemonData.results.map(getSinglePokemonDetails);
     const pokemonDetails = await Promise.all(mapped);
-    console.log(pokemonDetails);
+    renderPokemonGrid(pokemonDetails);
   } finally {
     toggleLoadingSpinner(false);
   }
@@ -68,21 +71,11 @@ function toggleLoadingSpinner(isLoading) {
   isLoading ? spinner.classList.remove("hidden") : spinner.classList.add("hidden");
 }
 
-// 5. Die Template-Funktion pro Pokémon aufrufen und die Werte übergeben
+function renderPokemonGrid(pokemonList) {
+  const contentRef = document.getElementById("card-content");
+  contentRef.innerHTML = "";
 
-// 6. Den zurückgegebenen HTML-String in #card-content einfügen
-//    -> Wie verhindere ich, dass Karten doppelt erscheinen?
-
-// 7. Die Render-Funktion beim Start der Seite aufrufen
-
-// function renderPokemonGrid() {
-//   const contentRef = document.getElementById("card-content");
-//   contentRef.innerHTML = "";
-
-//   for (let i = 0; i < array.length; i++) {
-//     const element = array[i];
-//   }
-
-//   contentRef.innerHTML += pokemonGridTemplate();
-// }
-// renderPokemonGrid();
+  for (let i = 0; i < pokemonList.length; i++) {
+    contentRef.innerHTML += pokemonGridTemplate(pokemonList[i]);
+  }
+}

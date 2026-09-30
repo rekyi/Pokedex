@@ -11,7 +11,7 @@ function pokemonGridTemplate(pokemon) {
                 </span>
 
                 <span class="header-right">
-                  <span class="pokemon-hp">${pokemon.hp}</span>
+                  <span class="pokemon-hp">${pokemon.hp}HP</span>
                   <img class="pokemon-type-icon" src="assets/images/type_icons/${pokemon.cardElement}.webp" alt="${pokemon.type}" />
                 </span>
               </span>
