@@ -22,14 +22,15 @@ const TYPE_TO_TCG_ELEMENT = {
 
 getPokemonData();
 
-async function getSinglePokemonDetails(pokemon) {
-  const details = await fetchErrorHandling(pokemon.url);
+async function getSinglePokemonDetails(listEntry) {
+  const details = await fetchErrorHandling(listEntry.url);
   const speciesData = await fetchErrorHandling(details.species.url);
 
   return {
-    spriteSrc: details.sprites.front_default,
+    spriteSrc: details.sprites.other["official-artwork"].front_default,
     name: details.name,
     id: details.id,
+    type: details.types[0].type.name,
     cardElement: TYPE_TO_TCG_ELEMENT[details.types[0].type.name],
     hp: details.stats[0].base_stat,
     species: speciesData.genera.find((translation) => translation.language.name === "en").genus,
