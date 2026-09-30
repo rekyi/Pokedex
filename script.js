@@ -30,6 +30,7 @@ async function getSinglePokemonDetails(pokemon) {
     spriteSrc: details.sprites.front_default,
     name: details.name,
     id: details.id,
+    cardElement: TYPE_TO_TCG_ELEMENT[details.types[0].type.name],
     hp: details.stats[0].base_stat,
     species: speciesData.genera.find((translation) => translation.language.name === "en").genus,
   };
