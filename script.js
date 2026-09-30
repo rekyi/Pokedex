@@ -16,11 +16,17 @@ async function getSinglePokemonDetails(pokemon) {
 }
 
 async function getPokemonData() {
-  const url = `${BASE_URL}?limit=20`;
-  const pokemonData = await fetchErrorHandling(url);
-  const mapped = pokemonData.results.map(getSinglePokemonDetails);
-  const pokemonDetails = await Promise.all(mapped);
-  console.log(pokemonDetails);
+  try {
+    toggleLoadingSpinner(true);
+
+    const url = `${BASE_URL}?limit=20`;
+    const pokemonData = await fetchErrorHandling(url);
+    const mapped = pokemonData.results.map(getSinglePokemonDetails);
+    const pokemonDetails = await Promise.all(mapped);
+    console.log(pokemonDetails);
+  } finally {
+    toggleLoadingSpinner(false);
+  }
 }
 
 async function fetchErrorHandling(url) {
@@ -34,6 +40,11 @@ async function fetchErrorHandling(url) {
   } catch (error) {
     console.error(error.message);
   }
+}
+
+function toggleLoadingSpinner(isLoading) {
+  const spinner = document.querySelector(".loader-card");
+  isLoading ? spinner.classList.remove("hidden") : spinner.classList.add("hidden");
 }
 
 // 5. Die Template-Funktion pro Pokémon aufrufen und die Werte übergeben
