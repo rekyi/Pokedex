@@ -2,27 +2,39 @@ const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 
 getPokemonData();
 
+async function getSinglePokemonDetails(pokemon) {
+  const details = await fetchErrorHandling(pokemon.url);
+  const speciesData = await fetchErrorHandling(details.species.url);
+
+  return {
+    spriteSrc: details.sprites.front_default,
+    name: details.name,
+    id: details.id,
+    hp: details.stats[0].base_stat,
+    species: speciesData.genera.find((translation) => translation.language.name === "en").genus,
+  };
+}
+
 async function getPokemonData() {
   const url = `${BASE_URL}?limit=20`;
-  const response = await fetch(url);
-  const pokemonData = await response.json();
-
-  const mapped = pokemonData.results.map(async (pokemon) => {
-    const response = await fetch(pokemon.url);
-    const details = await response.json();
-    const speciesUrl = await fetch(details.species.url);
-    const speciesData = await speciesUrl.json();
-
-    return {
-      spriteSrc: details.sprites.front_default,
-      name: details.name,
-      id: details.id,
-      hp: details.stats[0].base_stat,
-      species: speciesData.genera.find((translation) => translation.language.name === "en").genus,
-    };
-  });
+  const pokemonData = await fetchErrorHandling(url);
+  const mapped = pokemonData.results.map(getSinglePokemonDetails);
   const pokemonDetails = await Promise.all(mapped);
+
   console.log(pokemonDetails);
+}
+
+async function fetchErrorHandling(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(error.message);
+  }
 }
 
 // 5. Die Template-Funktion pro Pokémon aufrufen und die Werte übergeben
