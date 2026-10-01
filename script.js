@@ -1,4 +1,5 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
+const PLACEHOLDER_SPRITE_IMG = "assets/images/placeholder_sprite_img.webp";
 let currentOffset = 0;
 let isLoading = false;
 const TYPE_TO_TCG_ELEMENT = {
@@ -30,8 +31,10 @@ init();
 async function getSinglePokemonDetails(listEntry) {
   const details = await fetchErrorHandling(listEntry.url);
   const speciesData = await fetchErrorHandling(details.species.url);
+  const spriteSrc = getSpriteSrc(details.sprites);
   return {
-    spriteSrc: details.sprites.other["official-artwork"].front_default,
+    spriteSrc,
+    isPlaceholder: spriteSrc === PLACEHOLDER_SPRITE_IMG,
     name: details.name,
     id: details.id,
     type: details.types[0].type.name,
@@ -42,9 +45,13 @@ async function getSinglePokemonDetails(listEntry) {
   };
 }
 
+function getSpriteSrc(sprites) {
+  return sprites.other?.["official-artwork"]?.front_default || sprites.other?.home?.front_default || sprites.front_default || PLACEHOLDER_SPRITE_IMG;
+}
+
 function getCardExtras(details) {
   return {
-    ability: details.abilities[0].ability.name.replaceAll("-", " "),
+    // ability: details.abilities[0].ability.name.replaceAll("-", " "),
     size: `${details.height / 10} m · ${details.weight / 10} kg`,
     stats: [
       { label: "ATK", value: details.stats[1].base_stat },
@@ -57,16 +64,22 @@ function getCardExtras(details) {
 async function getPokemonData() {
   if (isLoading) return;
   isLoading = true;
+  toggleLoadingSpinner(true);
   try {
-    toggleLoadingSpinner(true);
-    const url = `${BASE_URL}?limit=40&offset=${currentOffset}`;
-    const pokemonList = await fetchPokemonList(url);
-    renderPokemonGrid(pokemonList);
-    currentOffset += 40;
+    await loadNextBatch();
+  } catch (error) {
+    console.error(error.message);
   } finally {
     toggleLoadingSpinner(false);
     isLoading = false;
   }
+}
+
+async function loadNextBatch() {
+  const url = `${BASE_URL}?limit=40&offset=${currentOffset}`;
+  const pokemonList = await fetchPokemonList(url);
+  renderPokemonGrid(pokemonList);
+  currentOffset += 40;
 }
 
 async function fetchPokemonList(url) {
@@ -77,16 +90,17 @@ async function fetchPokemonList(url) {
 }
 
 async function fetchErrorHandling(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error(error.message);
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Response status: ${response.status} (${url})`);
   }
+  return await response.json();
+}
+
+function handleImgError(img) {
+  img.onerror = null;
+  img.src = PLACEHOLDER_SPRITE_IMG;
+  img.classList.add("is-placeholder");
 }
 
 function toggleLoadingSpinner(isLoading) {
@@ -115,18 +129,6 @@ function infiniteScroll() {
   );
   observer.observe(loadingDiv);
 }
-
-// SCHRITT 5 (neue Funktion): Observer einrichten
-// - Den Sentinel aus dem HTML holen.
-// - Einen IntersectionObserver erstellen. Sein Callback bekommt eine Liste von Einträgen.
-// - Im Callback prüfen, ob der Sentinel gerade sichtbar ist (Eigenschaft isIntersecting).
-//   Wenn ja: getPokemonData aufrufen.
-// - Mit observe den Sentinel beobachten lassen.
-// - Wird die Funktion zu lang (14-Zeilen-Grenze), den Callback in eine eigene kleine Funktion auslagern.
-
-// SCHRITT 6 (Start der Seite): Aufrufe anpassen
-// - Den direkten Aufruf getPokemonData() am Dateiende durch den Aufruf der Observer-Funktion ersetzen.
-//   Der Observer löst das erste Laden gleich aus, weil der Sentinel am Anfang sichtbar ist.
 
 // SCHRITT 7: Testen
 // - Network-Tab öffnen und scrollen: Kommt pro Batch genau ein Request mit neuem offset?

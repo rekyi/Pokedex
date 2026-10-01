@@ -32,10 +32,10 @@
 
 .pokemon-sprite {
     position: absolute;
-    top: 12%;
+    top: 13%;
     left: 10%;
-    width: 80%;
-    height: 40%;
+    width: 78%;
+    height: 38%;
     object-fit: contain;
     z-index: 1;
 }
@@ -178,4 +178,8 @@
 .card-dragon .stat-track,
 .card-darkness .stat-track {
     background: rgba(255, 255, 255, 0.25);
+}
+
+.pokemon-sprite.is-placeholder {
+    object-fit: inherit;
 }

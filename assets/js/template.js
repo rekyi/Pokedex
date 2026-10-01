@@ -1,7 +1,8 @@
 function pokemonGridTemplate(pokemon) {
   return ` <li>
             <button type="button" class="pokemon-card card-${pokemon.cardElement}">
-              <img class="pokemon-sprite" src="${pokemon.spriteSrc}" alt="" />
+             <img class="pokemon-sprite ${pokemon.isPlaceholder ? "is-placeholder" : ""}"
+     src="${pokemon.spriteSrc}" alt="${pokemon.name}" onerror="handleImgError(this)" />
               <img class="card-blank" src="assets/images/card_blanks/${pokemon.cardElement}_card.webp" alt="" />
 
               <span class="card-header">
@@ -19,7 +20,6 @@ function pokemonGridTemplate(pokemon) {
                 <span class="pokemon-category">${pokemon.species}</span>
               </span>
               <span class="card-stats">${pokemon.stats.map(statBarTemplate).join("")}</span>
-              <span class="card-size">${pokemon.size}</span>
               <span class="card-size">${pokemon.size}</span>
             </button>
           </li>`;
