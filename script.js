@@ -35,11 +35,8 @@ async function getSinglePokemonDetails(listEntry) {
   return {
     spriteSrc,
     isPlaceholder: spriteSrc === PLACEHOLDER_SPRITE_IMG,
-    name: details.name,
-    id: details.id,
-    type: details.types[0].type.name,
-    cardElement: TYPE_TO_TCG_ELEMENT[details.types[0].type.name],
-    hp: details.stats[0].base_stat,
+    ...getNameParts(details),
+    ...getCardBasics(details),
     species: speciesData.genera.find((translation) => translation.language.name === "en").genus,
     ...getCardExtras(details),
   };
@@ -47,6 +44,25 @@ async function getSinglePokemonDetails(listEntry) {
 
 function getSpriteSrc(sprites) {
   return sprites.other?.["official-artwork"]?.front_default || sprites.other?.home?.front_default || sprites.front_default || PLACEHOLDER_SPRITE_IMG;
+}
+
+function getNameParts(details) {
+  const species = details.species.name;
+  return {
+    name: details.name,
+    displayName: species.replaceAll("-", " "),
+    formName: details.name.replace(species, "").replaceAll("-", " ").trim(),
+  };
+}
+
+function getCardBasics(details) {
+  const type = details.types[0].type.name;
+  return {
+    id: details.id,
+    type,
+    cardElement: TYPE_TO_TCG_ELEMENT[type],
+    hp: details.stats[0].base_stat,
+  };
 }
 
 function getCardExtras(details) {
