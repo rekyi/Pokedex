@@ -42,4 +42,8 @@ p, h1, h2, h3, h4, h5, h6 {
     --color-text-main: #ffffff;
     --color-text-muted: #141414;
     --color-bg-input: #f3f4f6;
+
+    --card-text: var(--color-main);
+    --card-hp: var(--color-primary);
+    --hp-outline: #ffffff;
 }

@@ -28,7 +28,6 @@ init();
 async function getSinglePokemonDetails(listEntry) {
   const details = await fetchErrorHandling(listEntry.url);
   const speciesData = await fetchErrorHandling(details.species.url);
-
   return {
     spriteSrc: details.sprites.other["official-artwork"].front_default,
     name: details.name,
@@ -37,13 +36,27 @@ async function getSinglePokemonDetails(listEntry) {
     cardElement: TYPE_TO_TCG_ELEMENT[details.types[0].type.name],
     hp: details.stats[0].base_stat,
     species: speciesData.genera.find((translation) => translation.language.name === "en").genus,
+    ...getCardExtras(details),
+    size: `${details.height / 10} m · ${details.weight / 10} kg`,
+  };
+}
+
+function getCardExtras(details) {
+  return {
+    ability: details.abilities[0].ability.name.replaceAll("-", " "),
+    size: `${details.height / 10} m · ${details.weight / 10} kg`,
+    stats: [
+      { label: "ATK", value: details.stats[1].base_stat },
+      { label: "DEF", value: details.stats[2].base_stat },
+      { label: "SPD", value: details.stats[5].base_stat },
+    ],
   };
 }
 
 async function getPokemonData() {
   try {
     toggleLoadingSpinner(true);
-    const url = `${BASE_URL}?limit=20`;
+    const url = `${BASE_URL}?limit=40`;
     const pokemonData = await fetchErrorHandling(url);
     const mapped = pokemonData.results.map(getSinglePokemonDetails);
     const pokemonDetails = await Promise.all(mapped);

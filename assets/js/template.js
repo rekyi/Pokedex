@@ -1,12 +1,11 @@
 function pokemonGridTemplate(pokemon) {
   return ` <li>
-            <button type="button" class="pokemon-card">
+            <button type="button" class="pokemon-card card-${pokemon.cardElement}">
               <img class="pokemon-sprite" src="${pokemon.spriteSrc}" alt="" />
               <img class="card-blank" src="assets/images/card_blanks/${pokemon.cardElement}_card.webp" alt="" />
 
               <span class="card-header">
                 <span class="header-left">
-                  <span class="pokemon-id">${pokemon.id}</span>
                   <span class="pokemon-name">${pokemon.name}</span>
                 </span>
 
@@ -19,6 +18,17 @@ function pokemonGridTemplate(pokemon) {
               <span class="card-species-bar">
                 <span class="pokemon-category">${pokemon.species}</span>
               </span>
+              <span class="card-stats">${pokemon.stats.map(statBarTemplate).join("")}</span>
+              <span class="card-size">${pokemon.size}</span>
+              <span class="card-size">${pokemon.size}</span>
             </button>
           </li>`;
+}
+
+function statBarTemplate(stat) {
+  return `<span class="stat-row">
+            <span class="stat-label">${stat.label}</span>
+            <span class="stat-track"><span class="stat-fill" style="width: ${Math.min(stat.value / 1.5, 100)}%"></span></span>
+            <span class="stat-value">${stat.value}</span>
+          </span>`;
 }
