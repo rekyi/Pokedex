@@ -1,4 +1,6 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
+let currentOffset = 0;
+let isLoading = false;
 const TYPE_TO_TCG_ELEMENT = {
   normal: "colorless",
   fire: "fire",
@@ -54,16 +56,25 @@ function getCardExtras(details) {
 }
 
 async function getPokemonData() {
+  if (isLoading) return;
+  isLoading = true;
   try {
     toggleLoadingSpinner(true);
-    const url = `${BASE_URL}?limit=40`;
-    const pokemonData = await fetchErrorHandling(url);
-    const mapped = pokemonData.results.map(getSinglePokemonDetails);
-    const pokemonDetails = await Promise.all(mapped);
-    renderPokemonGrid(pokemonDetails);
+    const url = `${BASE_URL}?limit=40&offset=${currentOffset}`;
+    const pokemonList = await fetchPokemonList(url);
+    renderPokemonGrid(pokemonList);
+    currentOffset += 40;
   } finally {
     toggleLoadingSpinner(false);
+    isLoading = false;
   }
+}
+
+async function fetchPokemonList(url) {
+  const pokemonData = await fetchErrorHandling(url);
+  const mapped = pokemonData.results.map(getSinglePokemonDetails);
+  const pokemonList = await Promise.all(mapped);
+  return pokemonList;
 }
 
 async function fetchErrorHandling(url) {
