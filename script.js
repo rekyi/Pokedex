@@ -97,9 +97,26 @@ function toggleLoadingSpinner(isLoading) {
 
 function renderPokemonGrid(pokemonList) {
   const contentRef = document.getElementById("card-content");
-  contentRef.innerHTML = "";
-
+  let htmlContent = "";
   for (let i = 0; i < pokemonList.length; i++) {
-    contentRef.innerHTML += pokemonGridTemplate(pokemonList[i]);
+    htmlContent += pokemonGridTemplate(pokemonList[i]);
   }
+  contentRef.insertAdjacentHTML("beforeend", htmlContent);
 }
+
+// SCHRITT 5 (neue Funktion): Observer einrichten
+// - Den Sentinel aus dem HTML holen.
+// - Einen IntersectionObserver erstellen. Sein Callback bekommt eine Liste von Einträgen.
+// - Im Callback prüfen, ob der Sentinel gerade sichtbar ist (Eigenschaft isIntersecting).
+//   Wenn ja: getPokemonData aufrufen.
+// - Mit observe den Sentinel beobachten lassen.
+// - Wird die Funktion zu lang (14-Zeilen-Grenze), den Callback in eine eigene kleine Funktion auslagern.
+
+// SCHRITT 6 (Start der Seite): Aufrufe anpassen
+// - Den direkten Aufruf getPokemonData() am Dateiende durch den Aufruf der Observer-Funktion ersetzen.
+//   Der Observer löst das erste Laden gleich aus, weil der Sentinel am Anfang sichtbar ist.
+
+// SCHRITT 7: Testen
+// - Network-Tab öffnen und scrollen: Kommt pro Batch genau ein Request mit neuem offset?
+// - Scrolle schnell und prüfe, dass keine Batch doppelt geladen wird.
+// - Erscheinen die alten Karten weiterhin und die neuen darunter?
