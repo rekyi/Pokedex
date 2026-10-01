@@ -1,4 +1,6 @@
 .pokemon-grid {
+    max-width: 120rem;
+    margin-inline: auto;
     padding: 1rem;
     display: flex;
     justify-content: center;

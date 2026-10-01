@@ -11,7 +11,7 @@ body {
 }
 
 .header-container {
-    max-width: 90rem;
+    max-width: 100rem;
     margin-inline: auto;
     display: flex;
     flex-direction: column;

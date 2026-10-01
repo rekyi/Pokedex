@@ -23,7 +23,7 @@ const TYPE_TO_TCG_ELEMENT = {
 };
 
 function init() {
-  getPokemonData();
+  infiniteScroll();
 }
 init();
 
@@ -39,7 +39,6 @@ async function getSinglePokemonDetails(listEntry) {
     hp: details.stats[0].base_stat,
     species: speciesData.genera.find((translation) => translation.language.name === "en").genus,
     ...getCardExtras(details),
-    size: `${details.height / 10} m · ${details.weight / 10} kg`,
   };
 }
 
@@ -102,6 +101,19 @@ function renderPokemonGrid(pokemonList) {
     htmlContent += pokemonGridTemplate(pokemonList[i]);
   }
   contentRef.insertAdjacentHTML("beforeend", htmlContent);
+}
+
+function infiniteScroll() {
+  const loadingDiv = document.getElementById("loading");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        getPokemonData();
+      }
+    },
+    { threshold: 0.5 },
+  );
+  observer.observe(loadingDiv);
 }
 
 // SCHRITT 5 (neue Funktion): Observer einrichten
