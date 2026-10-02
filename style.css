@@ -91,11 +91,14 @@ body {
     width: 100%;
     padding: 0.6rem 1rem;
     font-size: 1rem;
-    color: var(--color-text-main);
+    color: #171717;
+    background: #ffffff;
     border: 2px solid transparent;
     border-radius: 50px;
     outline: none;
     transition: all 0.4s ease;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .search-input::placeholder {
@@ -105,6 +108,7 @@ body {
 
 .search-input:focus {
     background: var(--color-main);
+    color: var(--color-text-main);
     border-color: #ef44449d;
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
 
@@ -250,4 +254,20 @@ body {
 #suggestion-list::-webkit-scrollbar-thumb {
     background: var(--color-primary);
     border-radius: 10px;
+}
+
+#suggestion-list::-webkit-scrollbar-track {
+    margin-block: 0.5rem;
+    background: transparent;
+}
+
+.no-pokemon {
+    margin-left: 1rem;
+    color: var(--color-text-main);
+    text-align: left;
+}
+
+#loading {
+    color: var(--color-text-main);
+    text-align: center;
 }
