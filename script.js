@@ -161,3 +161,8 @@ async function loadAllNames() {
     isLoadingNames = false;
   }
 }
+
+function setupSearch() {
+  const inputRef = document.querySelector('[data-id="search-input"]');
+  inputRef.addEventListener("focus", loadAllNames);
+}
