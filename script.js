@@ -22,11 +22,12 @@ const TYPE_TO_TCG_ELEMENT = {
 };
 let currentOffset = 0;
 let isLoading = false;
-const allPokemonNames = [];
+let allPokemonNames = [];
 let isLoadingNames = false;
 
 function init() {
   infiniteScroll();
+  setupSearch();
 }
 init();
 

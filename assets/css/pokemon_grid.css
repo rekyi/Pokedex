@@ -119,7 +119,7 @@
 
 .card-species-bar {
     position: absolute;
-    top: 52.9%;
+    top: 53%;
     left: 0;
     right: 0;
     display: flex;
@@ -129,7 +129,7 @@
 
 .pokemon-category {
     color: var(--color-main);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
     font-style: italic;
 }
