@@ -1,7 +1,5 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 const PLACEHOLDER_SPRITE_IMG = "assets/images/placeholder_sprite_img.webp";
-let currentOffset = 0;
-let isLoading = false;
 const TYPE_TO_TCG_ELEMENT = {
   normal: "colorless",
   fire: "fire",
@@ -22,6 +20,8 @@ const TYPE_TO_TCG_ELEMENT = {
   steel: "metal",
   fairy: "fairy",
 };
+let currentOffset = 0;
+let isLoading = false;
 
 function init() {
   infiniteScroll();
@@ -146,7 +146,83 @@ function infiniteScroll() {
   observer.observe(loadingDiv);
 }
 
-// SCHRITT 7: Testen
-// - Network-Tab öffnen und scrollen: Kommt pro Batch genau ein Request mit neuem offset?
-// - Scrolle schnell und prüfe, dass keine Batch doppelt geladen wird.
-// - Erscheinen die alten Karten weiterhin und die neuen darunter?
+// SCHRITT 1 (HTML): Container für die Vorschläge anlegen
+// - Direkt unter dem Suchfeld eine leere Liste (<ul>) mit eigener id einfügen.
+// - Sie ist am Anfang leer bzw. versteckt und wird später per JS gefüllt.
+// Commit: "Add empty suggestion list below the search input"
+
+// SCHRITT 2 (JS, oben bei den anderen Variablen): Zwei Variablen anlegen
+// - allPokemonNames = [] (hier landen später alle Namen)
+// - isLoadingNames = false (verhindert, dass die Anfrage doppelt startet)
+// Beide ändern sich später, also kein const für das Flag. Das Array darf const sein.
+// Commit: "Add state variables for the search"
+
+// SCHRITT 3 (neue Funktion): Alle Namen einmal laden
+// - Abbrechen, wenn die Namen schon geladen sind oder gerade geladen werden.
+// - Flag auf true setzen.
+// - try: mit fetchErrorHandling die Liste holen, mit einem sehr hohen limit (z. B. 10000).
+// - Aus den Ergebnissen nur die Namen in allPokemonNames speichern (Tipp: map).
+// - finally: Flag wieder auf false setzen.
+// - Fehler im catch in der Konsole ausgeben, wie bei getPokemonData.
+// Commit: "Add function to load all Pokémon names once"
+
+// SCHRITT 4 (JS, bei init): Laden beim ersten Klick ins Suchfeld auslösen
+// - Das Suchfeld über data-id="search-input" holen.
+// - Ein focus-Event anhängen, das die Funktion aus Schritt 3 aufruft.
+// - Prüfung, ob das Array schon gefüllt ist, kann in der Funktion aus Schritt 3 stehen.
+// Commit: "Load Pokémon names on first focus of the search input"
+
+// SCHRITT 5 (neue Funktion): Auf Tippen reagieren
+// - Ein input-Event am Suchfeld anhängen.
+// - Den Text aus event.target.value lesen, mit trim Leerzeichen entfernen
+//   und mit toLowerCase klein schreiben.
+// - Den Text an die Funktion aus Schritt 6 übergeben.
+// Commit: "Handle input event of the search field"
+
+// SCHRITT 6 (neue Funktion): Mindestlänge prüfen
+// - Hat der Text weniger als 3 Zeichen: Vorschlagsliste leeren/verstecken und abbrechen (return).
+// - Sonst weiter mit Schritt 7.
+// Commit: "Require at least three characters before searching"
+
+// SCHRITT 7 (neue Funktion): Namen filtern
+// - Aus allPokemonNames die Namen herausfiltern, die zum Text passen (Tipp: filter).
+// - Entscheide: Soll der Text am Anfang des Namens stehen (startsWith)
+//   oder irgendwo darin vorkommen (includes)? Auf deinen Bildern passt startsWith.
+// - Das Ergebnis ist ein Array mit den passenden Namen.
+// Commit: "Filter Pokémon names by search text"
+
+// SCHRITT 8 (Template + Render): Vorschläge anzeigen
+// - Eine Template-Funktion für einen einzelnen Vorschlag schreiben: ein <li> mit einem <button>,
+//   damit man auch mit der Tastatur auswählen kann.
+// - Eine Render-Funktion, die die Vorschläge zu einem String zusammensetzt
+//   und mit innerHTML in die Liste aus Schritt 1 schreibt (hier ersetzen, nicht anhängen).
+// Commit: "Render matching Pokémon names as suggestions"
+
+// SCHRITT 9 (in der Render-Funktion): Meldung bei keinem Treffer
+// - Ist das gefilterte Array leer, stattdessen einen Hinweis in die Liste schreiben
+//   (z. B. "No Pokémon found"). Dieser Eintrag darf kein Button sein.
+// Commit: "Show message when no Pokémon matches the search"
+
+// SCHRITT 10 (Klick auf einen Vorschlag): Auswahl vorbereiten
+// - Beim Klick auf einen Namen den gewählten Namen ermitteln.
+// - Später öffnet hier der Dialog. Für jetzt reicht console.log(name) zum Testen.
+// - Danach die Liste leeren/verstecken.
+// Commit: "Handle click on a suggestion"
+
+// SCHRITT 11: Liste wieder schließen
+// - Wenn das Feld geleert wird, ist Schritt 6 schon zuständig.
+// - Zusätzlich überlegen: Soll die Liste auch bei Klick außerhalb des Feldes oder bei Escape schließen?
+// Commit: "Close suggestion list on outside click"
+
+// SCHRITT 12 (CSS): Aussehen
+// - Liste direkt unter dem Suchfeld positionieren (position absolute, passende Breite).
+// - Eine maximale Höhe setzen und overflow-y auf auto, damit sie scrollbar ist.
+// - Hover- und Fokus-Zustand für die Einträge.
+// Commit: "Style scrollable suggestion list"
+
+// SCHRITT 13: Testen
+// - Network-Tab: Wird die Namensliste nur einmal geladen, auch bei mehrfachem Klicken?
+// - Unter 3 Zeichen: Keine Liste. Ab 3 Zeichen: Passende Namen.
+// - Unsinniger Text: Meldung erscheint.
+// - Groß- und Kleinschreibung sowie Leerzeichen am Anfang testen.
+// Commit: "Test and polish search behavior"
