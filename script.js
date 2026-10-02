@@ -179,3 +179,50 @@ function updateSuggestions(searchText) {
     return;
   }
 }
+
+// function filterNames() {
+//   allPokemonNames.filter(() => );
+// }
+
+// SCHRITT 7 (neue Funktion): Namen filtern
+// - Aus allPokemonNames die Namen herausfiltern, die zum Text passen (Tipp: filter).
+// - Entscheide: Soll der Text am Anfang des Namens stehen (startsWith)
+//   oder irgendwo darin vorkommen (includes)? Auf deinen Bildern passt startsWith.
+// - Das Ergebnis ist ein Array mit den passenden Namen.
+// Commit: "Filter Pokémon names by search text"
+
+// SCHRITT 8 (Template + Render): Vorschläge anzeigen
+// - Eine Template-Funktion für einen einzelnen Vorschlag schreiben: ein <li> mit einem <button>,
+//   damit man auch mit der Tastatur auswählen kann.
+// - Eine Render-Funktion, die die Vorschläge zu einem String zusammensetzt
+//   und mit innerHTML in die Liste aus Schritt 1 schreibt (hier ersetzen, nicht anhängen).
+// Commit: "Render matching Pokémon names as suggestions"
+
+// SCHRITT 9 (in der Render-Funktion): Meldung bei keinem Treffer
+// - Ist das gefilterte Array leer, stattdessen einen Hinweis in die Liste schreiben
+//   (z. B. "No Pokémon found"). Dieser Eintrag darf kein Button sein.
+// Commit: "Show message when no Pokémon matches the search"
+
+// SCHRITT 10 (Klick auf einen Vorschlag): Auswahl vorbereiten
+// - Beim Klick auf einen Namen den gewählten Namen ermitteln.
+// - Später öffnet hier der Dialog. Für jetzt reicht console.log(name) zum Testen.
+// - Danach die Liste leeren/verstecken.
+// Commit: "Handle click on a suggestion"
+
+// SCHRITT 11: Liste wieder schließen
+// - Wenn das Feld geleert wird, ist Schritt 6 schon zuständig.
+// - Zusätzlich überlegen: Soll die Liste auch bei Klick außerhalb des Feldes oder bei Escape schließen?
+// Commit: "Close suggestion list on outside click"
+
+// SCHRITT 12 (CSS): Aussehen
+// - Liste direkt unter dem Suchfeld positionieren (position absolute, passende Breite).
+// - Eine maximale Höhe setzen und overflow-y auf auto, damit sie scrollbar ist.
+// - Hover- und Fokus-Zustand für die Einträge.
+// Commit: "Style scrollable suggestion list"
+
+// SCHRITT 13: Testen
+// - Network-Tab: Wird die Namensliste nur einmal geladen, auch bei mehrfachem Klicken?
+// - Unter 3 Zeichen: Keine Liste. Ab 3 Zeichen: Passende Namen.
+// - Unsinniger Text: Meldung erscheint.
+// - Groß- und Kleinschreibung sowie Leerzeichen am Anfang testen.
+// Commit: "Test and polish search behavior"
