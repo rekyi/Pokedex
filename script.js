@@ -188,6 +188,10 @@ function filterNames(searchText) {
 
 function renderSuggestions(matchingNames) {
   const suggestionListRef = document.getElementById("suggestion-list");
-  suggestionListRef.innerHTML = matchingNames.map(suggestionTemplate).join("");
   suggestionListRef.classList.remove("hidden");
+  if (matchingNames.length === 0) {
+    suggestionListRef.innerHTML = `<li>No Pokémon found</li>`;
+    return;
+  }
+  suggestionListRef.innerHTML = matchingNames.map(suggestionTemplate).join("");
 }
