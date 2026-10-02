@@ -147,3 +147,17 @@ function infiniteScroll() {
   );
   observer.observe(loadingDiv);
 }
+
+async function loadAllNames() {
+  if (isLoadingNames || allPokemonNames.length > 0) return;
+  isLoadingNames = true;
+  try {
+    const url = `${BASE_URL}?limit=10000`;
+    const pokemonData = await fetchErrorHandling(url);
+    allPokemonNames = pokemonData.results.map((listEntry) => listEntry.name);
+  } catch (error) {
+    console.error(error.message);
+  } finally {
+    isLoadingNames = false;
+  }
+}

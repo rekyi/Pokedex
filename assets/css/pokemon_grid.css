@@ -203,5 +203,6 @@
 }
 
 .pokemon-sprite.is-placeholder {
-    object-fit: inherit;
+    object-fit: cover;
+    transform: scale(1.05);
 }
