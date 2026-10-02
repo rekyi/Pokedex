@@ -165,4 +165,17 @@ async function loadAllNames() {
 function setupSearch() {
   const inputRef = document.querySelector('[data-id="search-input"]');
   inputRef.addEventListener("focus", loadAllNames);
+  inputRef.addEventListener("input", handleSearchInput);
+}
+
+function handleSearchInput(event) {
+  const searchText = event.target.value.trim().toLowerCase();
+  updateSuggestions(searchText);
+}
+
+function updateSuggestions(searchText) {
+  if (searchText.length < 3) {
+    document.getElementById("suggestion-list").classList.add("hidden");
+    return;
+  }
 }
