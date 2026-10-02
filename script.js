@@ -195,3 +195,12 @@ function renderSuggestions(matchingNames) {
   }
   suggestionListRef.innerHTML = matchingNames.map(suggestionTemplate).join("");
 }
+
+function selectSuggestion(event) {
+  const target = event.target.closest("button");
+
+  if (target && target.hasAttribute("data-name")) {
+    const selectedName = target.dataset.name;
+    console.log(selectedName);
+  }
+}
