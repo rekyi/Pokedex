@@ -10,6 +10,7 @@
 }
 
 .pokemon-card {
+    display: block;
     position: relative;
     width: 13rem;
     aspect-ratio: 7 / 11;
@@ -18,7 +19,28 @@
     cursor: pointer;
     /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.712);  maybe?*/
     overflow: hidden;
-    display: block;
+    transition: transform 0.3s ease
+}
+
+.pokemon-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg);
+    z-index: 10;
+}
+
+.pokemon-card:hover::after {
+    left: 170%;
+    transition: left 0.8s ease;
+}
+
+.pokemon-card:hover {
+    transform: translateY(-8px);
 }
 
 .card-blank {

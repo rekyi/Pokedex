@@ -207,7 +207,7 @@ function renderSuggestions(matchingNames) {
   const suggestionListRef = document.getElementById("suggestion-list");
   suggestionListRef.classList.remove("hidden");
   if (matchingNames.length === 0) {
-    suggestionListRef.innerHTML = `<li class="no-pokemon">No Pokémon found</li>`;
+    suggestionListRef.innerHTML = `<li class="no-pokemon" data-id="not-found">No Pokémon found</li>`;
     return;
   }
   suggestionListRef.innerHTML = matchingNames.map(suggestionTemplate).join("");
