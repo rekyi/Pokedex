@@ -75,10 +75,20 @@ body {
     }
 }
 
-.search-input {
+.search-wrapper {
+    position: relative;
     width: 100%;
     max-width: 20rem;
     margin-inline: auto;
+
+    @media (min-width: 768px) {
+        margin-inline: 0;
+    }
+}
+
+.search-input {
+    display: block;
+    width: 100%;
     padding: 0.6rem 1rem;
     font-size: 1rem;
     color: var(--color-text-main);
@@ -86,14 +96,10 @@ body {
     border-radius: 50px;
     outline: none;
     transition: all 0.4s ease;
-
-    @media(min-width:768px) {
-        margin-inline: 0;
-    }
 }
 
 .search-input::placeholder {
-    color: var(--color-text-muted);
+    color: rgb(65, 65, 65);
     font-weight: 500;
 }
 
@@ -198,4 +204,50 @@ body {
         opacity: 0;
         transform: translate(25px, -45px) scale(1.2);
     }
+}
+
+#suggestion-list {
+    position: absolute;
+    top: calc(100% + 1rem);
+    left: 0;
+    width: 100%;
+    max-height: 20rem;
+    overflow-y: auto;
+    background: var(--color-main);
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    list-style: none;
+    padding: 0.5rem 0;
+    z-index: 100;
+}
+
+#suggestion-list:empty {
+    display: none;
+}
+
+#suggestion-list button {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    color: var(--color-text-main);
+    text-align: left;
+    text-transform: capitalize;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#suggestion-list button:hover,
+#suggestion-list button:focus {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#suggestion-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#suggestion-list::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 10px;
 }
