@@ -164,8 +164,20 @@ async function loadAllNames() {
 
 function setupSearch() {
   const inputRef = document.querySelector('[data-id="search-input"]');
+
   inputRef.addEventListener("focus", loadAllNames);
   inputRef.addEventListener("input", handleSearchInput);
+
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".search-wrapper")) {
+      document.getElementById("suggestion-list").classList.add("hidden");
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      document.getElementById("suggestion-list").classList.add("hidden");
+    }
+  });
 }
 
 function handleSearchInput(event) {
@@ -202,5 +214,6 @@ function selectSuggestion(event) {
   if (target && target.hasAttribute("data-name")) {
     const selectedName = target.dataset.name;
     console.log(selectedName);
+    document.getElementById("suggestion-list").classList.add("hidden");
   }
 }
