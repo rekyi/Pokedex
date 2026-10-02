@@ -166,7 +166,11 @@ async function loadAllNames() {
 function setupSearch() {
   const inputRef = document.querySelector('[data-id="search-input"]');
 
-  inputRef.addEventListener("focus", loadAllNames);
+  inputRef.addEventListener("focus", () => {
+    loadAllNames();
+    const searchText = inputRef.value.trim().toLowerCase();
+    updateSuggestions(searchText);
+  });
   inputRef.addEventListener("input", handleSearchInput);
 
   document.addEventListener("click", (event) => {
