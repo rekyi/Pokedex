@@ -34,3 +34,13 @@ function statBarTemplate(stat) {
     <span class="stat-value">${stat.value}</span>
   </span>`;
 }
+
+function suggestionTemplate(pokemon) {
+  return `
+  <li>
+  <button type="button" data-name="${pokemon.name}">
+    <img src="${pokemon.spriteSrc}" alt="">
+    <span>${pokemon.displayName}</span>
+  </button>
+</li>`;
+}
