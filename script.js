@@ -165,24 +165,9 @@ async function loadAllNames() {
 
 function setupSearch() {
   const inputRef = document.querySelector('[data-id="search-input"]');
-
-  inputRef.addEventListener("focus", () => {
-    loadAllNames();
-    const searchText = inputRef.value.trim().toLowerCase();
-    updateSuggestions(searchText);
-  });
+  inputRef.addEventListener("focus", handleSearchFocus);
   inputRef.addEventListener("input", handleSearchInput);
-
-  document.addEventListener("click", (event) => {
-    if (!event.target.closest(".search-wrapper")) {
-      document.getElementById("suggestion-list").classList.add("hidden");
-    }
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      document.getElementById("suggestion-list").classList.add("hidden");
-    }
-  });
+  setupSuggestionClosing();
 }
 
 function handleSearchInput(event) {
@@ -192,7 +177,7 @@ function handleSearchInput(event) {
 
 function updateSuggestions(searchText) {
   if (searchText.length < 3) {
-    document.getElementById("suggestion-list").classList.add("hidden");
+    hideSuggestions();
     return;
   }
   const matchingNames = filterNames(searchText);
@@ -219,6 +204,28 @@ function selectSuggestion(event) {
   if (target && target.hasAttribute("data-name")) {
     const selectedName = target.dataset.name;
     console.log(selectedName);
-    document.getElementById("suggestion-list").classList.add("hidden");
+    hideSuggestions();
   }
+}
+
+function handleSearchFocus(event) {
+  loadAllNames();
+  handleSearchInput(event);
+}
+
+function setupSuggestionClosing() {
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".search-wrapper")) {
+      hideSuggestions();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      hideSuggestions();
+    }
+  });
+}
+
+function hideSuggestions() {
+  document.getElementById("suggestion-list").classList.add("hidden");
 }

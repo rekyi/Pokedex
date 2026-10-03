@@ -1,7 +1,7 @@
 function pokemonGridTemplate(pokemon) {
   return `
   <li>
-    <button type="button" class="pokemon-card card-${pokemon.cardElement}">
+    <button type="button" data-name="${pokemon.name}" class="pokemon-card card-${pokemon.cardElement}">
       <img class="pokemon-sprite ${pokemon.isPlaceholder ? "is-placeholder" : ""}" src="${pokemon.spriteSrc}" alt="${pokemon.name}" onerror="handleImgError(this)" />
       <img class="card-blank" src="assets/images/card_blanks/${pokemon.cardElement}_card.webp" alt="" />
 

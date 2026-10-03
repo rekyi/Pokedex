@@ -141,7 +141,7 @@
 
 .card-species-bar {
     position: absolute;
-    top: 53%;
+    top: 52.7%;
     left: 0;
     right: 0;
     display: flex;
@@ -210,8 +210,8 @@
     align-items: center;
     justify-content: center;
     color: var(--card-text);
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 700;
 }
 
 .card-dragon,
