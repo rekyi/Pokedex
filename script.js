@@ -244,7 +244,7 @@ async function fetchDialogData(pokemonName) {
   return { details, speciesData };
 }
 
-async function openPokemonDialog(pokemonName) {
+async function openDialog(pokemonName) {
   toggleLoadingSpinner(true);
   try {
     const dialogData = await fetchDialogData(pokemonName);
@@ -254,4 +254,16 @@ async function openPokemonDialog(pokemonName) {
   } finally {
     toggleLoadingSpinner(false);
   }
+}
+
+function getDialogSpriteSrc(sprites) {
+  return sprites.other?.home?.front_default || sprites.other?.["official-artwork"]?.front_default || sprites.front_default || PLACEHOLDER_SPRITE_IMG;
+}
+
+function getDialogBasics(details) {
+  return {
+    ...getNameParts(details),
+    spriteSrc: getDialogSpriteSrc(details.sprites),
+    id: details.id,
+  };
 }
