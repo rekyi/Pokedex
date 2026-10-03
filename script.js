@@ -204,7 +204,7 @@ function handlePokemonClick(event) {
 
   if (target && target.hasAttribute("data-name")) {
     const selectedName = target.dataset.name;
-    console.log(selectedName);
+    openPokemonDialog(selectedName);
     hideSuggestions();
   }
 }
@@ -236,4 +236,8 @@ function setupSuggestionClosing() {
 
 function hideSuggestions() {
   document.getElementById("suggestion-list").classList.add("hidden");
+}
+
+function openPokemonDialog(pokemonName) {
+  console.log(pokemonName);
 }
