@@ -238,14 +238,17 @@ function hideSuggestions() {
   document.getElementById("suggestion-list").classList.add("hidden");
 }
 
-async function openPokemonDialog(pokemonName) {
-  const url = `${BASE_URL}/${pokemonName}`;
+async function fetchDialogData(pokemonName) {
+  const details = await fetchErrorHandling(`${BASE_URL}/${pokemonName}`);
+  const speciesData = await fetchErrorHandling(details.species.url);
+  return { details, speciesData };
+}
 
+async function openPokemonDialog(pokemonName) {
   toggleLoadingSpinner(true);
   try {
-    const details = await fetchErrorHandling(url);
-    const speciesData = await fetchErrorHandling(details.species.url);
-    console.log(details, speciesData);
+    const dialogData = await fetchDialogData(pokemonName);
+    console.log(dialogData);
   } catch (error) {
     console.error(error.message);
   } finally {
