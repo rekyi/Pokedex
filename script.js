@@ -28,6 +28,7 @@ let isLoadingNames = false;
 function init() {
   infiniteScroll();
   setupSearch();
+  setupPokemonClicks();
 }
 init();
 
@@ -198,7 +199,7 @@ function renderSuggestions(matchingNames) {
   suggestionListRef.innerHTML = matchingNames.map(suggestionTemplate).join("");
 }
 
-function selectSuggestion(event) {
+function handlePokemonClick(event) {
   const target = event.target.closest("button");
 
   if (target && target.hasAttribute("data-name")) {
@@ -206,6 +207,13 @@ function selectSuggestion(event) {
     console.log(selectedName);
     hideSuggestions();
   }
+}
+
+function setupPokemonClicks() {
+  const suggestionListRef = document.getElementById("suggestion-list");
+  const cardRef = document.getElementById("card-content");
+  suggestionListRef.addEventListener("click", handlePokemonClick);
+  cardRef.addEventListener("click", handlePokemonClick);
 }
 
 function handleSearchFocus(event) {
