@@ -256,7 +256,7 @@ async function openPokemonDialog(pokemonName) {
   toggleLoadingSpinner(true);
   try {
     const dialogData = await fetchDialogData(pokemonName);
-    console.log(dialogData.details.stats[3]);
+    console.log(dialogData.details.abilities);
   } catch (error) {
     console.error(error.message);
   } finally {
@@ -291,5 +291,11 @@ function getDialogStats(details) {
       label: STAT_LABELS[statEntry.stat.name],
       value: statEntry.base_stat,
     })),
+  };
+}
+
+function getDialogAbilities(details) {
+  return {
+    abilities: details.abilities.map((abilityEntry) => abilityEntry.ability.name.replaceAll("-", " ")),
   };
 }
