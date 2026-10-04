@@ -256,7 +256,7 @@ async function openPokemonDialog(pokemonName) {
   toggleLoadingSpinner(true);
   try {
     const dialogData = await fetchDialogData(pokemonName);
-    console.log(dialogData.details.abilities);
+    console.log(prepareDialogData(dialogData));
   } catch (error) {
     console.error(error.message);
   } finally {

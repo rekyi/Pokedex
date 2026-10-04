@@ -46,7 +46,16 @@
 
       <div id="loading">Catching more Pokémons...</div>
 
-      <dialog open data-id="dialog" aria-label="Pokémon details" class="pokemon-dialog"></dialog>
+      <dialog class="pokemon-dialog" data-id="dialog" aria-label="Pokémon details">
+        <button type="button" class="close-dialog" data-id="close-dialog-button" aria-label="Close dialog"></button>
+
+        <div class="dialog-content" data-id="dialog-content"></div>
+
+        <div class="dialog-nav">
+          <button type="button" class="prev-button" data-id="prev-button" aria-label="Previous Pokémon"></button>
+          <button type="button" class="next-button" data-id="next-button" aria-label="Next Pokémon"></button>
+        </div>
+      </dialog>
     </main>
 
     <script src="assets/js/db.js"></script>
