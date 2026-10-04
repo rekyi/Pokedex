@@ -299,3 +299,12 @@ function getDialogAbilities(details) {
     abilities: details.abilities.map((abilityEntry) => abilityEntry.ability.name.replaceAll("-", " ")),
   };
 }
+
+function prepareDialogData(dialogData) {
+  return {
+    ...getDialogBasics(dialogData.details),
+    ...getDialogTypes(dialogData.details),
+    ...getDialogStats(dialogData.details),
+    ...getDialogAbilities(dialogData.details),
+  };
+}
