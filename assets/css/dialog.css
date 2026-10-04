@@ -34,7 +34,6 @@
     gap: 1.25rem;
 }
 
-/* #region flat card */
 .dialog-card {
     position: relative;
     width: min(100%, 18rem);
@@ -150,9 +149,6 @@
     font-weight: 700;
 }
 
-/* #endregion */
-
-/* #region hologram sprite */
 .hologram {
     --beam-mask:
         conic-gradient(from -14deg at 50% 340%, transparent 0deg, #000 5deg, #000 23deg, transparent 28deg),
@@ -202,9 +198,6 @@
         hologram-flicker 6s linear infinite;
 }
 
-/* #endregion */
-
-/* #region buttons */
 .close-dialog,
 .prev-button,
 .next-button {
@@ -285,8 +278,6 @@
 .next-button::before {
     transform: translate(-70%, -50%) rotate(45deg);
 }
-
-/* #endregion */
 
 @keyframes dialog-in {
     0% {

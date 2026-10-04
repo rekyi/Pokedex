@@ -2,7 +2,14 @@ body {
     background: rgb(20, 20, 20);
 }
 
+body:has(.pokemon-dialog[open]) {
+    overflow: hidden;
+}
+
 .pokedex-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     padding: 1rem 2rem;
     background: var(--color-main);
     /* border-bottom: 1px solid var(--color-border);
