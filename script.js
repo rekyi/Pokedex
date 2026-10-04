@@ -20,14 +20,6 @@ const TYPE_TO_TCG_ELEMENT = {
   steel: "metal",
   fairy: "fairy",
 };
-const STAT_LABELS = {
-  hp: "HP",
-  attack: "ATK",
-  defense: "DEF",
-  "special-attack": "SP. ATK",
-  "special-defense": "SP. DEF",
-  speed: "SPD",
-};
 let currentOffset = 0;
 let isLoading = false;
 let allPokemonNames = [];
@@ -84,6 +76,8 @@ function getCardExtras(details) {
     stats: [
       { label: "ATK", value: details.stats[1].base_stat },
       { label: "DEF", value: details.stats[2].base_stat },
+      { label: "SP. ATK", value: details.stats[3].base_stat },
+      { label: "SP. DEF", value: details.stats[4].base_stat },
       { label: "SPD", value: details.stats[5].base_stat },
     ],
   };
@@ -287,15 +281,6 @@ function getDialogTypes(details) {
   };
 }
 
-function getDialogStats(details) {
-  return {
-    stats: details.stats.map((statEntry) => ({
-      label: STAT_LABELS[statEntry.stat.name],
-      value: statEntry.base_stat,
-    })),
-  };
-}
-
 function getDialogAbilities(details) {
   return {
     abilities: details.abilities.map((abilityEntry) => abilityEntry.ability.name.replaceAll("-", " ")),
@@ -306,7 +291,6 @@ function prepareDialogData(dialogData) {
   return {
     ...getDialogBasics(dialogData.details),
     ...getDialogTypes(dialogData.details),
-    ...getDialogStats(dialogData.details),
     ...getDialogAbilities(dialogData.details),
   };
 }

@@ -46,4 +46,16 @@ p, h1, h2, h3, h4, h5, h6 {
     --card-text: var(--color-main);
     --card-hp: var(--color-primary);
     --hp-outline: #ffffff;
+
+    --element-colorless: #d1d5db;
+    --element-darkness: #8b5cf6;
+    --element-dragon: #eab308;
+    --element-electric: #facc15;
+    --element-fairy: #f472b6;
+    --element-fighting: #c2763a;
+    --element-fire: #ff5a36;
+    --element-grass: #4ade80;
+    --element-metal: #94a3b8;
+    --element-psychic: #c026d3;
+    --element-water: #38bdf8;
 }

@@ -45,44 +45,32 @@ function suggestionTemplate(pokemonName) {
 }
 
 function pokemonDialogTemplate(pokemon) {
+  const element = pokemon.types[0].element;
   return `
-  <section class="hologram">
-    <img class="hologram-sprite" src="${pokemon.spriteSrc}" alt="${pokemon.displayName}" onerror="handleImgError(this)" />
-    <ul class="hologram-stats">
-      ${pokemon.stats
-        .map(
-          (stat) => `
-      <li class="hologram-stat">
-        <span class="hologram-stat-label">${stat.label}</span>
-        <span class="hologram-stat-value">${stat.value}</span>
-      </li>`,
-        )
-        .join("")}
-    </ul>
-  </section>
+  <div class="dialog-scene" style="--glow: var(--element-${element})">
+    <article class="dialog-card card-${element}">
+      <img class="dialog-card-blank" src="assets/images/card_blanks/${element}_card.webp" alt="" />
 
-  <article class="dialog-card">
-    <img class="dialog-card-blank" src="assets/images/card_blanks/${pokemon.types[0].element}_card.webp" alt="" />
+      <span class="dialog-card-id">#${pokemon.id}</span>
 
-    <div class="dialog-card-top">
-      <span class="dialog-card-id">No. ${pokemon.id}</span>
-      <ul class="dialog-card-types">
-        ${pokemon.types
-          .map(
-            (type) => `
-        <li><img class="dialog-type-icon" src="assets/images/type_icons/${type.element}.webp" alt="${type.name}" /></li>`,
-          )
-          .join("")}
-      </ul>
-    </div>
+      <div class="hologram">
+        <img class="hologram-sprite" src="${pokemon.spriteSrc}" alt="${pokemon.displayName}" onerror="handleImgError(this)" />
+      </div>
+
+      <div class="dialog-card-top">
+        <ul class="dialog-card-types">
+          ${pokemon.types.map((type) => `<li><img class="dialog-type-icon" src="assets/images/type_icons/${type.element}.webp" alt="${type.name}" /></li>`).join("")}
+        </ul>
+      </div>
 
       <ul class="dialog-card-abilities">
-      ${pokemon.abilities.map((ability) => `<li class="dialog-card-ability">${ability}</li>`).join("")}
-    </ul>
+        ${pokemon.abilities.map((ability) => `<li class="dialog-card-ability">${ability}</li>`).join("")}
+      </ul>
 
-    <h2 class="dialog-card-name">
-      ${pokemon.displayName}
-      ${pokemon.formName ? `<span class="dialog-card-form">${pokemon.formName}</span>` : ""}
-    </h2>
-  </article>`;
+      <h2 class="dialog-card-name">
+        ${pokemon.displayName}
+        ${pokemon.formName ? `<span class="dialog-card-form">${pokemon.formName}</span>` : ""}
+      </h2>
+    </article>
+  </div>`;
 }

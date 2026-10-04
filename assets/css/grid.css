@@ -158,26 +158,30 @@
 
 .card-stats {
     position: absolute;
-    top: 64%;
+    top: 60%;
     left: 14%;
     right: 14%;
     z-index: 3;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.5rem;
 }
 
 .stat-row {
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    height: 0.7rem;
     color: var(--card-text);
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     font-weight: 700;
+    line-height: 1;
 }
 
 .stat-label {
-    width: 1.6rem;
+    flex-shrink: 0;
+    width: 2.4rem;
+    white-space: nowrap;
 }
 
 .stat-track {

@@ -1,0 +1,379 @@
+.pokemon-dialog {
+    margin: auto;
+    width: 35rem;
+    max-height: 100dvh;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.144);
+    border-radius: 1.5rem;
+    background: var(--color-main);
+    color: var(--color-text-main);
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.6);
+}
+
+.pokemon-dialog[open] {
+    animation: dialog-in 0.35s ease;
+}
+
+.pokemon-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+}
+
+.dialog-content {
+    padding: 3.5rem 1.25rem 0;
+}
+
+.dialog-scene {
+    --glow: var(--element-colorless);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* #region flat card */
+.dialog-card {
+    position: relative;
+    width: min(100%, 18rem);
+    aspect-ratio: 7 / 11;
+    margin-bottom: -4rem;
+    border-radius: 0.75rem;
+    color: var(--card-text);
+    box-shadow:
+        0 0 1.5rem color-mix(in srgb, var(--glow) 70%, transparent),
+        0 0 4rem color-mix(in srgb, var(--glow) 40%, transparent);
+    transform: perspective(37rem) rotateX(63deg);
+    transform-style: preserve-3d;
+    animation: glow-pulse 6s ease-in-out infinite;
+}
+
+.dialog-card-blank {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+}
+
+.dialog-card-id {
+    position: absolute;
+    top: 38%;
+    left: 12%;
+    right: 12%;
+    height: 15%;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: color-mix(in srgb, var(--glow) 40%, #ffffff);
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    opacity: 0.6;
+    text-shadow:
+        0 0 0.6rem var(--glow),
+        0 0 1.5rem var(--glow);
+}
+
+.dialog-card-top {
+    position: absolute;
+    top: 58%;
+    right: 8.5%;
+    z-index: 3;
+    display: flex;
+}
+
+.dialog-card-types {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0;
+    list-style: none;
+}
+
+.dialog-type-icon {
+    width: 2rem;
+    height: 2rem;
+    filter:
+        drop-shadow(0 0 0.4rem var(--glow)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+.dialog-card-abilities {
+    position: absolute;
+    top: 59%;
+    left: 12%;
+    right: 12%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0;
+    list-style: none;
+}
+
+.dialog-card-ability {
+    padding: 0.2rem 0.9rem;
+    border: 1px solid color-mix(in srgb, var(--card-text) 30%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--card-text) 10%, transparent);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+
+.dialog-card-name {
+    position: absolute;
+    top: 88.5%;
+    left: 10%;
+    right: 10%;
+    height: 5.5%;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: capitalize;
+}
+
+.dialog-card-form {
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+/* #endregion */
+
+/* #region hologram sprite */
+.hologram {
+    --beam-mask:
+        conic-gradient(from -14deg at 50% 340%, transparent 0deg, #000 5deg, #000 23deg, transparent 28deg),
+        linear-gradient(to top, transparent 0%, #000 14%, rgba(0, 0, 0, 0.7) 45%, transparent 100%);
+    position: absolute;
+    bottom: 66%;
+    left: 10%;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 80%;
+    height: 42%;
+    pointer-events: none;
+    transform: rotateX(-60deg);
+    transform-origin: 70% 100%;
+}
+
+.hologram::before,
+.hologram::after {
+    content: "";
+    position: absolute;
+    inset: 0 -25% -12% -25%;
+    -webkit-mask-image: var(--beam-mask);
+    mask-image: var(--beam-mask);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+}
+
+.hologram::before {
+    background:
+        radial-gradient(ellipse 26% 10% at 50% 88%, color-mix(in srgb, var(--glow) 90%, transparent), transparent),
+        linear-gradient(to top, color-mix(in srgb, var(--glow) 60%, transparent), color-mix(in srgb, var(--glow) 12%, transparent));
+}
+
+.hologram::after {
+    background: repeating-linear-gradient(to bottom, transparent 0, transparent 0.25rem, rgba(0, 0, 0, 0.18) 0.25rem, rgba(0, 0, 0, 0.18) 0.35rem);
+}
+
+.hologram-sprite {
+    position: relative;
+    width: 100%;
+    object-fit: contain;
+    filter: grayscale(0.5) brightness(1.2) contrast(1.1) drop-shadow(0 0 0.75rem var(--glow));
+    animation:
+        hologram-float 5s ease-in-out infinite,
+        hologram-flicker 6s linear infinite;
+}
+
+/* #endregion */
+
+/* #region buttons */
+.close-dialog,
+.prev-button,
+.next-button {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-text-main);
+    cursor: pointer;
+}
+
+.close-dialog:hover,
+.prev-button:hover,
+.next-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.close-dialog:focus-visible,
+.prev-button:focus-visible,
+.next-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.close-dialog {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+.close-dialog::before,
+.close-dialog::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1rem;
+    height: 2px;
+    background: currentColor;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-dialog::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.dialog-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.25rem 1.25rem;
+}
+
+.prev-button,
+.next-button {
+    width: 3rem;
+    height: 3rem;
+}
+
+.prev-button::before,
+.next-button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-top: 3px solid currentColor;
+    border-right: 3px solid currentColor;
+}
+
+.prev-button::before {
+    transform: translate(-30%, -50%) rotate(-135deg);
+}
+
+.next-button::before {
+    transform: translate(-70%, -50%) rotate(45deg);
+}
+
+/* #endregion */
+
+@keyframes dialog-in {
+    0% {
+        opacity: 0;
+        transform: translateY(1rem) scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 1.5rem color-mix(in srgb, var(--glow) 70%, transparent),
+            0 0 4rem color-mix(in srgb, var(--glow) 40%, transparent);
+    }
+
+    50% {
+        box-shadow:
+            0 0 2.5rem color-mix(in srgb, var(--glow) 90%, transparent),
+            0 0 6rem color-mix(in srgb, var(--glow) 55%, transparent);
+    }
+}
+
+@keyframes hologram-float {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 0 -4%;
+    }
+}
+
+@keyframes hologram-flicker {
+
+    0%,
+    46%,
+    100% {
+        opacity: 0.95;
+    }
+
+    48% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    52% {
+        opacity: 0.75;
+    }
+
+    54% {
+        opacity: 0.95;
+    }
+}
+
+@media (max-height: 46rem) {
+    .dialog-card {
+        width: min(100%, 13rem);
+        margin-bottom: -3.5rem;
+    }
+
+    .dialog-card-id {
+        font-size: 3rem;
+    }
+
+    .dialog-type-icon {
+        width: 1.6rem;
+        height: 1.6rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pokemon-dialog[open],
+    .dialog-card,
+    .hologram-sprite {
+        animation: none;
+    }
+}
