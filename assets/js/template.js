@@ -76,8 +76,8 @@ function pokemonDialogTemplate(pokemon) {
       </ul>
     </div>
 
-    <ul class="dialog-card-abilities">
-      ${pokemon.abilities.map((ability) => `<li class="dialog-card-ability">${ability.label}</li>`).join("")}
+      <ul class="dialog-card-abilities">
+      ${pokemon.abilities.map((ability) => `<li class="dialog-card-ability">${ability}</li>`).join("")}
     </ul>
 
     <h2 class="dialog-card-name">
