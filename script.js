@@ -292,6 +292,11 @@ function prepareDialogData(dialogData) {
     ...getDialogBasics(dialogData.details),
     ...getDialogTypes(dialogData.details),
     ...getDialogAbilities(dialogData.details),
+    stage: "test",
+    attacks: [
+      { name: "Water Gun", element: "water", power: 40 },
+      { name: "Withdraw", element: "water", power: null },
+    ],
   };
 }
 

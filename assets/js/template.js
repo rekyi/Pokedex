@@ -55,16 +55,24 @@ function pokemonDialogTemplate(pokemon) {
 
       <div class="hologram">
         <img class="hologram-sprite" src="${pokemon.spriteSrc}" alt="${pokemon.displayName}" onerror="handleImgError(this)" />
-      </div>
-
-      <div class="dialog-card-top">
-        <ul class="dialog-card-types">
-          ${pokemon.types.map((type) => `<li><img class="dialog-type-icon" src="assets/images/type_icons/${type.element}.webp" alt="${type.name}" /></li>`).join("")}
+        <ul class="hologram-types">
+          ${pokemon.types.map((type) => `<li class="hologram-type" style="--orb: var(--element-${type.element})"><img class="hologram-type-icon" src="assets/images/type_icons/${type.element}.webp" alt="${type.name}" /></li>`).join("")}
         </ul>
       </div>
 
-      <ul class="dialog-card-abilities">
-        ${pokemon.abilities.map((ability) => `<li class="dialog-card-ability">${ability}</li>`).join("")}
+      <span class="dialog-card-stage">${pokemon.stage}</span>
+
+      <ul class="dialog-card-attacks">
+        ${pokemon.attacks
+          .map(
+            (attack) => `
+        <li class="dialog-card-attack">
+          <img class="dialog-attack-icon" src="assets/images/type_icons/${attack.element}.webp" alt="" />
+          <span class="dialog-attack-name">${attack.name}</span>
+          ${attack.power ? `<span class="dialog-attack-power">${attack.power}</span>` : ""}
+        </li>`,
+          )
+          .join("")}
       </ul>
 
       <h2 class="dialog-card-name">
