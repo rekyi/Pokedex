@@ -270,6 +270,9 @@ function getDialogBasics(details) {
 
 function getDialogTypes(details) {
   return {
-    types: details.types.map((typeEntry) => typeEntry.type.name),
+    types: details.types.map((typeEntry) => ({
+      name: typeEntry.type.name,
+      element: TYPE_TO_TCG_ELEMENT[typeEntry.type.name],
+    })),
   };
 }
