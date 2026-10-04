@@ -267,3 +267,9 @@ function getDialogBasics(details) {
     id: details.id,
   };
 }
+
+function getDialogTypes(details) {
+  return {
+    types: details.types.map((typeEntry) => typeEntry.type.name),
+  };
+}
