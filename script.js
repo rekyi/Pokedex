@@ -20,6 +20,14 @@ const TYPE_TO_TCG_ELEMENT = {
   steel: "metal",
   fairy: "fairy",
 };
+const STAT_LABELS = {
+  hp: "HP",
+  attack: "ATK",
+  defense: "DEF",
+  "special-attack": "SP. ATK",
+  "special-defense": "SP. DEF",
+  speed: "SPD",
+};
 let currentOffset = 0;
 let isLoading = false;
 let allPokemonNames = [];
@@ -244,11 +252,11 @@ async function fetchDialogData(pokemonName) {
   return { details, speciesData };
 }
 
-async function openDialog(pokemonName) {
+async function openPokemonDialog(pokemonName) {
   toggleLoadingSpinner(true);
   try {
     const dialogData = await fetchDialogData(pokemonName);
-    console.log(dialogData);
+    console.log(dialogData.details.stats[3]);
   } catch (error) {
     console.error(error.message);
   } finally {
@@ -273,6 +281,15 @@ function getDialogTypes(details) {
     types: details.types.map((typeEntry) => ({
       name: typeEntry.type.name,
       element: TYPE_TO_TCG_ELEMENT[typeEntry.type.name],
+    })),
+  };
+}
+
+function getDialogStats(details) {
+  return {
+    stats: details.stats.map((statEntry) => ({
+      label: STAT_LABELS[statEntry.stat.name],
+      value: statEntry.base_stat,
     })),
   };
 }
