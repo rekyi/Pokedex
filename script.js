@@ -308,3 +308,8 @@ function prepareDialogData(dialogData) {
     ...getDialogAbilities(dialogData.details),
   };
 }
+
+function renderDialogContent(pokemon) {
+  const dialogRef = document.querySelector('[data-id="dialog-content"]');
+  dialogRef.innerHTML = pokemonDialogTemplate(pokemon);
+}
