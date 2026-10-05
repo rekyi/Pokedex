@@ -31,6 +31,7 @@ function init() {
   infiniteScroll();
   setupSearch();
   setupPokemonClicks();
+  setupDialogNav();
   backdropListener();
 }
 init();
@@ -261,10 +262,12 @@ async function openPokemonDialog(pokemonName) {
   if (isLoadingDialog) return;
   isLoadingDialog = true;
   try {
+    await loadAllNames();
     const dialogData = await fetchDialogData(pokemonName);
     const pokemon = prepareDialogData(dialogData);
     renderDialogContent(pokemon);
     document.querySelector('[data-id="dialog"]').showModal();
+    currentDialogIndex = allPokemonNames.indexOf(pokemonName);
   } catch (error) {
     console.error(error);
     alert("Failed to load Pokémon details. Please try again later.");
@@ -356,37 +359,38 @@ function backdropListener() {
   });
 }
 
-// SCHRITT 2 (openPokemonDialog): Doppeltes Laden verhindern
-// - Am Anfang abbrechen, wenn isLoadingDialog wahr ist, danach auf true setzen (wie in getPokemonData).
-// - Im finally wieder auf false setzen.
-// Commit: "Guard openPokemonDialog against double loading"
+function getNeighborName(step) {
+  let targetIndex = currentDialogIndex + step;
 
-// SCHRITT 3 (openPokemonDialog): Namen sicherstellen und Position merken
-// - Am Anfang await loadAllNames() aufrufen. Wer den Dialog über eine Karte öffnet, hat die Suche
-//   vielleicht noch nie benutzt, dann ist allPokemonNames noch leer.
-// - Nach dem erfolgreichen Rendern currentDialogIndex mit indexOf auf den geöffneten Namen setzen.
-//   Das Merken passiert erst nach dem Erfolg, damit ein fehlgeschlagener Request die Position nicht verschiebt.
-// Commit: "Remember current position in allPokemonNames"
+  if (targetIndex >= allPokemonNames.length) {
+    targetIndex = 0;
+  } else if (targetIndex < 0) {
+    targetIndex = allPokemonNames.length - 1;
+  }
+  return allPokemonNames[targetIndex];
+}
 
-// SCHRITT 4 (neue Funktion getNeighborName(step)): Nachbarn berechnen
-// - Neuen Index aus currentDialogIndex und step berechnen.
-// - Wie im Fotogram: Ist er gleich der Länge der Liste, geht es auf 0, ist er kleiner als 0,
-//   geht es auf length - 1. Eine Alternative mit Modulo (Suchbegriff: javascript modulo wrap around index)
-//   ist kürzer, die Variante aus Fotogram ist aber gut lesbar.
-// - Den Namen an dieser Stelle in allPokemonNames zurückgeben, den Index selbst hier nicht speichern.
-// Commit: "Add getNeighborName with wrap-around"
+function changeDialog(step) {
+  if (allPokemonNames.length === 0) return;
+  const nextPokemonName = getNeighborName(step);
+  openPokemonDialog(nextPokemonName);
+}
 
-// SCHRITT 5 (neue Funktion changeDialog(step)): Wechseln
-// - Mit getNeighborName den Namen holen und openPokemonDialog damit aufrufen.
-// - Ist allPokemonNames leer, nichts tun, denn dann gibt es keinen Nachbarn.
-// Commit: "Add changeDialog for previous and next"
+function setupDialogNav() {
+  document.querySelector('[data-id="prev-button"]').addEventListener("click", () => changeDialog(-1));
+  document.querySelector('[data-id="next-button"]').addEventListener("click", () => changeDialog(1));
 
-// SCHRITT 6 (neue Funktion setupDialogNav): Listener anhängen
-// - Beide Buttons per data-id holen und je einen click-Listener anhängen.
-// - Der Zurück-Button ruft changeDialog(-1) auf, der Weiter-Button changeDialog(1),
-//   als Pfeilfunktion wie im Fotogram, damit das Argument mitgegeben wird.
-// - setupDialogNav in init aufrufen.
-// Commit: "Attach click listeners to dialog navigation"
+  document.addEventListener("keydown", (event) => {
+    const dialog = document.querySelector('[data-id="dialog"]');
+
+    if (!dialog || !dialog.open) return;
+    if (event.key === "ArrowLeft") {
+      changeDialog(-1);
+    } else if (event.key === "ArrowRight") {
+      changeDialog(1);
+    }
+  });
+}
 
 // SCHRITT 7 (optional): Tastatur
 // - Im bestehenden keydown-Listener oder in einem eigenen Pfeil links/rechts abfangen
