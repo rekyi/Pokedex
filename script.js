@@ -32,7 +32,7 @@ function init() {
   setupSearch();
   setupPokemonClicks();
   setupDialogNav();
-  backdropListener();
+  setupDialogClosing();
 }
 init();
 
@@ -350,13 +350,14 @@ function getDialogMoves(moves) {
   };
 }
 
-function backdropListener() {
+function setupDialogClosing() {
   const dialogRef = document.querySelector('[data-id="dialog"]');
   dialogRef.addEventListener("click", (event) => {
     if (event.target === event.currentTarget) {
       event.currentTarget.close();
     }
   });
+  document.querySelector('[data-id="close-dialog-button"]').addEventListener("click", () => dialogRef.close());
 }
 
 function getNeighborName(step) {
@@ -391,19 +392,6 @@ function setupDialogNav() {
     }
   });
 }
-
-// SCHRITT 7 (optional): Tastatur
-// - Im bestehenden keydown-Listener oder in einem eigenen Pfeil links/rechts abfangen
-//   und changeDialog(-1) bzw. changeDialog(1) aufrufen, solange der Dialog offen ist.
-// Commit: "Add arrow key navigation to dialog"
-
-// SCHRITT 8: Testen
-// - Erstes Pokémon (bulbasaur) zurück: Landet es beim letzten Eintrag der Liste?
-// - Letztes Pokémon weiter: Landet es bei bulbasaur?
-// - Dialog über einen Vorschlag öffnen, der keine Karte hat: Funktionieren die Pfeile?
-// - Schnell mehrfach klicken: Wird nur einmal geladen?
-// - Dialog öffnen, bevor die Suche je benutzt wurde: Sind die Namen geladen?
-// Commit: "Test dialog navigation"
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
