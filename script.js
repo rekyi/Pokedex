@@ -251,7 +251,6 @@ async function openPokemonDialog(pokemonName) {
   toggleLoadingSpinner(true);
   try {
     const dialogData = await fetchDialogData(pokemonName);
-    console.log(dialogData.speciesData);
     const pokemon = prepareDialogData(dialogData);
     renderDialogContent(pokemon);
     document.querySelector('[data-id="dialog"]').showModal();
@@ -283,22 +282,12 @@ function getDialogTypes(details) {
   };
 }
 
-function getDialogAbilities(details) {
-  return {
-    abilities: details.abilities.map((abilityEntry) => abilityEntry.ability.name.replaceAll("-", " ")),
-  };
-}
-
 function prepareDialogData(dialogData) {
   return {
     ...getDialogBasics(dialogData.details),
     ...getDialogTypes(dialogData.details),
-    ...getDialogAbilities(dialogData.details),
     ...getDialogStage(dialogData.speciesData),
-    attacks: [
-      { name: "Water Gun", element: "water", power: 40 },
-      { name: "Withdraw", element: "water", power: null },
-    ],
+    ...getDialogMoves(dialogData.moves),
   };
 }
 
@@ -328,4 +317,14 @@ async function fetchMoves(details) {
   const mapped = firstMoves.map((moveEntry) => fetchErrorHandling(moveEntry.move.url));
   const moveList = await Promise.all(mapped);
   return moveList;
+}
+
+function getDialogMoves(moves) {
+  return {
+    attacks: moves.map((moveEntry) => ({
+      name: moveEntry.name.replaceAll("-", " "),
+      element: TYPE_TO_TCG_ELEMENT[moveEntry.type.name],
+      power: moveEntry.power,
+    })),
+  };
 }
