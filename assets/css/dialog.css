@@ -144,7 +144,7 @@
     position: relative;
     width: 100%;
     object-fit: contain;
-    filter: grayscale(0.5) brightness(1.2) contrast(1.1) drop-shadow(0 0 0.75rem var(--glow));
+    filter: grayscale(0.4) brightness(1.1) contrast(1.2) drop-shadow(0 0 0.75rem var(--glow));
     animation:
         var(--float),
         hologram-flicker 6s linear infinite;
@@ -262,12 +262,15 @@
 .prev-button,
 .next-button {
     position: relative;
+    width: 3rem;
+    height: 3rem;
     border: none;
     background: transparent;
     color: color-mix(in srgb, var(--color-text-main) 90%, transparent);
     transform: scale(1.3);
     cursor: pointer;
     transition: all 0.2s ease;
+    pointer-events: auto;
 }
 
 .prev-button:hover,
@@ -276,6 +279,26 @@
     color: var(--color-text-main);
     transform: scale(1.5);
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+.prev-button::before,
+.next-button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-top: 3px solid currentColor;
+    border-right: 3px solid currentColor;
+}
+
+.prev-button::before {
+    transform: translate(-30%, -50%) rotate(-135deg);
+}
+
+.next-button::before {
+    transform: translate(-70%, -50%) rotate(45deg);
 }
 
 .close-dialog {
@@ -300,6 +323,7 @@
 }
 
 .dialog-nav {
+    margin: 0 -1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -308,36 +332,9 @@
     left: 0;
     right: 0;
     transform: translateY(-50%);
-    padding: 0 1.5rem;
     pointer-events: none;
 }
 
-.prev-button,
-.next-button {
-    width: 3rem;
-    height: 3rem;
-    pointer-events: auto;
-}
-
-.prev-button::before,
-.next-button::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0.7rem;
-    height: 0.7rem;
-    border-top: 3px solid currentColor;
-    border-right: 3px solid currentColor;
-}
-
-.prev-button::before {
-    transform: translate(-30%, -50%) rotate(-135deg);
-}
-
-.next-button::before {
-    transform: translate(-70%, -50%) rotate(45deg);
-}
 
 @keyframes dialog-in {
     0% {

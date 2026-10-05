@@ -250,6 +250,7 @@ async function openPokemonDialog(pokemonName) {
   toggleLoadingSpinner(true);
   try {
     const dialogData = await fetchDialogData(pokemonName);
+    console.log(dialogData.speciesData);
     const pokemon = prepareDialogData(dialogData);
     renderDialogContent(pokemon);
     document.querySelector('[data-id="dialog"]').showModal();
@@ -292,7 +293,7 @@ function prepareDialogData(dialogData) {
     ...getDialogBasics(dialogData.details),
     ...getDialogTypes(dialogData.details),
     ...getDialogAbilities(dialogData.details),
-    stage: "test",
+    ...getDialogStage(dialogData.speciesData),
     attacks: [
       { name: "Water Gun", element: "water", power: 40 },
       { name: "Withdraw", element: "water", power: null },
@@ -303,4 +304,17 @@ function prepareDialogData(dialogData) {
 function renderDialogContent(pokemon) {
   const dialogRef = document.querySelector('[data-id="dialog-content"]');
   dialogRef.innerHTML = pokemonDialogTemplate(pokemon);
+}
+
+function getStageText(speciesData) {
+  if (speciesData.is_mythical) return "Mythical Pokémon";
+  if (speciesData.is_legendary) return "Legendary Pokémon";
+  if (speciesData.is_baby) return "Baby Pokémon";
+  if (speciesData.evolves_from_species !== null) return `Evolves from ${speciesData.evolves_from_species.name.replaceAll("-", " ")}`;
+  return "Basic Pokémon";
+}
+function getDialogStage(speciesData) {
+  return {
+    stage: getStageText(speciesData),
+  };
 }
