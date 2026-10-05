@@ -24,6 +24,8 @@ let currentOffset = 0;
 let isLoading = false;
 let allPokemonNames = [];
 let isLoadingNames = false;
+let currentDialogIndex = 0;
+let isLoadingDialog = false;
 
 function init() {
   infiniteScroll();
@@ -95,7 +97,7 @@ async function getPokemonData() {
     loadingDiv.style.visibility = "visible";
   }
   try {
-    await delay(2500);
+    await delay(2000);
     await loadNextBatch();
   } catch (error) {
     console.error(error);
@@ -256,6 +258,8 @@ async function fetchDialogData(pokemonName) {
 }
 
 async function openPokemonDialog(pokemonName) {
+  if (isLoadingDialog) return;
+  isLoadingDialog = true;
   try {
     const dialogData = await fetchDialogData(pokemonName);
     const pokemon = prepareDialogData(dialogData);
@@ -264,6 +268,8 @@ async function openPokemonDialog(pokemonName) {
   } catch (error) {
     console.error(error);
     alert("Failed to load Pokémon details. Please try again later.");
+  } finally {
+    isLoadingDialog = false;
   }
 }
 
@@ -343,14 +349,57 @@ function getDialogMoves(moves) {
 
 function backdropListener() {
   const dialogRef = document.querySelector('[data-id="dialog"]');
-  dialogRef.addEventListener("click", onBackdropClick);
+  dialogRef.addEventListener("click", (event) => {
+    if (event.target === event.currentTarget) {
+      event.currentTarget.close();
+    }
+  });
 }
 
-function onBackdropClick(event) {
-  if (event.target === event.currentTarget) {
-    event.currentTarget.close();
-  }
-}
+// SCHRITT 2 (openPokemonDialog): Doppeltes Laden verhindern
+// - Am Anfang abbrechen, wenn isLoadingDialog wahr ist, danach auf true setzen (wie in getPokemonData).
+// - Im finally wieder auf false setzen.
+// Commit: "Guard openPokemonDialog against double loading"
+
+// SCHRITT 3 (openPokemonDialog): Namen sicherstellen und Position merken
+// - Am Anfang await loadAllNames() aufrufen. Wer den Dialog über eine Karte öffnet, hat die Suche
+//   vielleicht noch nie benutzt, dann ist allPokemonNames noch leer.
+// - Nach dem erfolgreichen Rendern currentDialogIndex mit indexOf auf den geöffneten Namen setzen.
+//   Das Merken passiert erst nach dem Erfolg, damit ein fehlgeschlagener Request die Position nicht verschiebt.
+// Commit: "Remember current position in allPokemonNames"
+
+// SCHRITT 4 (neue Funktion getNeighborName(step)): Nachbarn berechnen
+// - Neuen Index aus currentDialogIndex und step berechnen.
+// - Wie im Fotogram: Ist er gleich der Länge der Liste, geht es auf 0, ist er kleiner als 0,
+//   geht es auf length - 1. Eine Alternative mit Modulo (Suchbegriff: javascript modulo wrap around index)
+//   ist kürzer, die Variante aus Fotogram ist aber gut lesbar.
+// - Den Namen an dieser Stelle in allPokemonNames zurückgeben, den Index selbst hier nicht speichern.
+// Commit: "Add getNeighborName with wrap-around"
+
+// SCHRITT 5 (neue Funktion changeDialog(step)): Wechseln
+// - Mit getNeighborName den Namen holen und openPokemonDialog damit aufrufen.
+// - Ist allPokemonNames leer, nichts tun, denn dann gibt es keinen Nachbarn.
+// Commit: "Add changeDialog for previous and next"
+
+// SCHRITT 6 (neue Funktion setupDialogNav): Listener anhängen
+// - Beide Buttons per data-id holen und je einen click-Listener anhängen.
+// - Der Zurück-Button ruft changeDialog(-1) auf, der Weiter-Button changeDialog(1),
+//   als Pfeilfunktion wie im Fotogram, damit das Argument mitgegeben wird.
+// - setupDialogNav in init aufrufen.
+// Commit: "Attach click listeners to dialog navigation"
+
+// SCHRITT 7 (optional): Tastatur
+// - Im bestehenden keydown-Listener oder in einem eigenen Pfeil links/rechts abfangen
+//   und changeDialog(-1) bzw. changeDialog(1) aufrufen, solange der Dialog offen ist.
+// Commit: "Add arrow key navigation to dialog"
+
+// SCHRITT 8: Testen
+// - Erstes Pokémon (bulbasaur) zurück: Landet es beim letzten Eintrag der Liste?
+// - Letztes Pokémon weiter: Landet es bei bulbasaur?
+// - Dialog über einen Vorschlag öffnen, der keine Karte hat: Funktionieren die Pfeile?
+// - Schnell mehrfach klicken: Wird nur einmal geladen?
+// - Dialog öffnen, bevor die Suche je benutzt wurde: Sind die Namen geladen?
+// Commit: "Test dialog navigation"
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
