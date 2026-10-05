@@ -29,6 +29,7 @@ function init() {
   infiniteScroll();
   setupSearch();
   setupPokemonClicks();
+  BackdropListener();
 }
 init();
 
@@ -94,7 +95,7 @@ async function getPokemonData() {
     loadingDiv.style.visibility = "visible";
   }
   try {
-    await delay(3000);
+    await delay(2500);
     await loadNextBatch();
   } catch (error) {
     console.error(error);
@@ -338,6 +339,17 @@ function getDialogMoves(moves) {
       power: moveEntry.power,
     })),
   };
+}
+
+function backdropListener() {
+  const dialogRef = document.querySelector('[data-id="dialog"]');
+  dialogRef.addEventListener("click", onBackdropClick);
+}
+
+function onBackdropClick(event) {
+  if (event.target === event.currentTarget) {
+    event.currentTarget.close();
+  }
 }
 
 function delay(ms) {
