@@ -71,7 +71,6 @@ function getCardBasics(details) {
 
 function getCardExtras(details) {
   return {
-    // ability: details.abilities[0].ability.name.replaceAll("-", " "),
     size: `${details.height / 10} m · ${details.weight / 10} kg`,
     stats: [
       { label: "ATK", value: details.stats[1].base_stat },
@@ -86,11 +85,20 @@ function getCardExtras(details) {
 async function getPokemonData() {
   if (isLoading) return;
   isLoading = true;
-  toggleLoadingSpinner(true);
+
+  const loadingDiv = document.getElementById("loading");
+  if (currentOffset === 0) {
+    toggleLoadingSpinner(true);
+    loadingDiv.style.visibility = "hidden";
+  } else {
+    loadingDiv.style.visibility = "visible";
+  }
   try {
+    await delay(3000);
     await loadNextBatch();
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
+    alert("Failed to load Pokémon. Please try again later.");
   } finally {
     toggleLoadingSpinner(false);
     isLoading = false;
@@ -160,9 +168,8 @@ async function loadAllNames() {
     const pokemonData = await fetchErrorHandling(url);
     allPokemonNames = pokemonData.results.map((listEntry) => listEntry.name);
   } catch (error) {
-    console.error(error.message);
-  } finally {
-    isLoadingNames = false;
+    console.error(error);
+    alert("Failed to load search data. Please try again later.");
   }
 }
 
@@ -248,16 +255,14 @@ async function fetchDialogData(pokemonName) {
 }
 
 async function openPokemonDialog(pokemonName) {
-  toggleLoadingSpinner(true);
   try {
     const dialogData = await fetchDialogData(pokemonName);
     const pokemon = prepareDialogData(dialogData);
     renderDialogContent(pokemon);
     document.querySelector('[data-id="dialog"]').showModal();
   } catch (error) {
-    console.error(error.message);
-  } finally {
-    toggleLoadingSpinner(false);
+    console.error(error);
+    alert("Failed to load Pokémon details. Please try again later.");
   }
 }
 
@@ -333,4 +338,8 @@ function getDialogMoves(moves) {
       power: moveEntry.power,
     })),
   };
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

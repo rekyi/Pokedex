@@ -179,9 +179,9 @@ body:has(.pokemon-dialog[open]) {
 }
 
 .status-text {
-    margin-top: 25px;
+    margin-top: 1.5rem;
     color: var(--color-text-main);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     letter-spacing: 1px;
 }
 
@@ -276,5 +276,6 @@ body:has(.pokemon-dialog[open]) {
 
 #loading {
     color: var(--color-text-main);
+    font-size: 1.15rem;
     text-align: center;
 }
