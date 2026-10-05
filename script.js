@@ -310,7 +310,10 @@ function getStageText(speciesData) {
   if (speciesData.is_mythical) return "Mythical Pokémon";
   if (speciesData.is_legendary) return "Legendary Pokémon";
   if (speciesData.is_baby) return "Baby Pokémon";
-  if (speciesData.evolves_from_species !== null) return `Evolves from ${speciesData.evolves_from_species.name.replaceAll("-", " ")}`;
+  if (speciesData.evolves_from_species !== null) {
+    const rawName = speciesData.evolves_from_species.name.charAt(0).toUpperCase() + speciesData.evolves_from_species.name.slice(1);
+    return `Evolves from ${rawName.replaceAll("-", " ")}`;
+  }
   return "Basic Pokémon";
 }
 function getDialogStage(speciesData) {
