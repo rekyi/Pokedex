@@ -243,7 +243,8 @@ function hideSuggestions() {
 async function fetchDialogData(pokemonName) {
   const details = await fetchErrorHandling(`${BASE_URL}/${pokemonName}`);
   const speciesData = await fetchErrorHandling(details.species.url);
-  return { details, speciesData };
+  const moves = await fetchMoves(details);
+  return { details, speciesData, moves };
 }
 
 async function openPokemonDialog(pokemonName) {
