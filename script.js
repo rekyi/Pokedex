@@ -29,7 +29,7 @@ function init() {
   infiniteScroll();
   setupSearch();
   setupPokemonClicks();
-  BackdropListener();
+  backdropListener();
 }
 init();
 
