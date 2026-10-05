@@ -313,10 +313,16 @@ function getDialogStage(speciesData) {
 }
 
 async function fetchMoves(details) {
-  const firstMoves = details.moves.slice(0, 2);
+  const firstMoves = details.moves.slice(0, 10);
   const mapped = firstMoves.map((moveEntry) => fetchErrorHandling(moveEntry.move.url));
   const moveList = await Promise.all(mapped);
-  return moveList;
+  const moveListFiltered = moveList.filter((move) => move.power !== null);
+
+  if (moveListFiltered.length === 0) {
+    return moveList.slice(0, 2);
+  }
+
+  return moveListFiltered.slice(0, 2);
 }
 
 function getDialogMoves(moves) {
