@@ -311,8 +311,8 @@ function getStageText(speciesData) {
   if (speciesData.is_legendary) return "Legendary Pokémon";
   if (speciesData.is_baby) return "Baby Pokémon";
   if (speciesData.evolves_from_species !== null) {
-    const rawName = speciesData.evolves_from_species.name.charAt(0).toUpperCase() + speciesData.evolves_from_species.name.slice(1);
-    return `Evolves from ${rawName.replaceAll("-", " ")}`;
+    const speciesName = speciesData.evolves_from_species.name.charAt(0).toUpperCase() + speciesData.evolves_from_species.name.slice(1);
+    return `Evolves from ${speciesName.replaceAll("-", " ")}`;
   }
   return "Basic Pokémon";
 }
@@ -320,4 +320,11 @@ function getDialogStage(speciesData) {
   return {
     stage: getStageText(speciesData),
   };
+}
+
+async function fetchMoves(details) {
+  const firstMoves = details.moves.slice(0, 2);
+  const mapped = firstMoves.map((moveEntry) => fetchErrorHandling(moveEntry.move.url));
+  const moveList = await Promise.all(mapped);
+  return moveList;
 }
