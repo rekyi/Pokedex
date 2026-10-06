@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokédex</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.png" />
+    <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="assets/css/standard.css" />
     <link rel="stylesheet" href="assets/css/grid.css" />
     <link rel="stylesheet" href="assets/css/dialog.css" />
@@ -23,7 +23,7 @@
           <h1 class="heading-name">Pokédex</h1>
         </div>
         <div class="search-wrapper">
-          <input type="search" id="search-input" name="search" class="search-input" data-id="search-input" placeholder="Search Pokémon..." autocomplete="off" />
+          <input type="search" id="search-input" name="search" class="search-input" data-id="search-input" placeholder="Search Pokémon..." aria-label="Search Pokémon by name" autocomplete="off" />
           <ul id="suggestion-list"></ul>
         </div>
       </div>
@@ -48,9 +48,7 @@
 
       <dialog class="pokemon-dialog" data-id="dialog" aria-label="Pokémon details">
         <div class="dialog-content" data-id="dialog-content"></div>
-
-        <button type="button" class="close-dialog" data-id="close-dialog-button">CLOSE</button>
-
+        <button type="button" class="close-dialog" data-id="close-dialog-button" aria-label="Close Pokémon details">CLOSE</button>
         <div class="dialog-nav">
           <button type="button" class="prev-button" data-id="prev-button" aria-label="Previous Pokémon"></button>
           <button type="button" class="next-button" data-id="next-button" aria-label="Next Pokémon"></button>
@@ -58,8 +56,11 @@
       </dialog>
     </main>
 
-    <script src="assets/js/db.js"></script>
+    <script src="assets/js/data.js"></script>
     <script src="assets/js/template.js"></script>
+    <script src="assets/js/grid.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/dialog.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

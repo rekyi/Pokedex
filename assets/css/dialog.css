@@ -459,40 +459,6 @@
     }
 }
 
-@media (max-height: 46rem) {
-    .dialog-card {
-        width: min(100%, 13rem);
-        margin-bottom: -3.5rem;
-    }
-
-    .dialog-card-id {
-        font-size: 3rem;
-    }
-
-    .dialog-card-stage {
-        font-size: 0.75rem;
-    }
-
-    .dialog-attack-name {
-        font-size: 0.85rem;
-    }
-
-    .dialog-attack-power {
-        font-size: 1.1rem;
-    }
-
-    .dialog-attack-icon {
-        width: 1.1rem;
-        height: 1.1rem;
-    }
-
-    .hologram-type {
-        width: 2.2rem;
-        height: 2.2rem;
-        padding: 0.4rem;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
 
     .pokemon-dialog[open],

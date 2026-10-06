@@ -12,9 +12,6 @@ body:has(.pokemon-dialog[open]) {
     z-index: 100;
     padding: 1rem 3rem;
     background: var(--color-main);
-    /* border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 4px 20px rgba(0, 0, 0); 
-    could be cool? */
 }
 
 .header-container {
