@@ -40,6 +40,7 @@ p, h1, h2, h3, h4, h5, h6 {
 :root {
     --color-main: #070b16;
     --color-primary: #ef4444;
+    --color-secondary: #0c0c0f;
     --color-text-main: #ffffff;
     --color-text-muted: #141414;
     --color-bg-input: #f3f4f6;

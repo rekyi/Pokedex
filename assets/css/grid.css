@@ -29,7 +29,7 @@
     left: 10.5%;
     width: 79%;
     height: 40.7%;
-    background: rgb(20, 20, 20);
+    background: var(--color-secondary);
     z-index: 0;
 }
 
