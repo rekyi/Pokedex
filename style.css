@@ -1,3 +1,7 @@
+html:has(.pokemon-dialog[open]) {
+    scrollbar-gutter: stable;
+}
+
 body {
     background: var(--color-secondary);
 }
@@ -13,7 +17,7 @@ body:has(.pokemon-dialog[open]) {
     padding: 1rem 3rem;
     background-color: rgba(16, 19, 24, 0.9);
     backdrop-filter: blur(7px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
 
@@ -161,11 +165,11 @@ body:has(.pokemon-dialog[open]) {
 
 .zzz {
     position: absolute;
-    color: #7dd3fc;
+    color: #fcfdfd;
     font-weight: 700;
     font-size: 1.5rem;
     opacity: 0;
-    animation: float-z 2.4s infinite linear;
+    animation: float-z 2.2s infinite linear;
 }
 
 .z1 {
