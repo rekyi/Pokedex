@@ -161,34 +161,32 @@
 
 .card-species-bar {
     position: absolute;
-    top: 53.8%;
+    top: 54%;
     left: 11.7%;
     right: 11.6%;
     height: 4%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0.3rem;
-    background: linear-gradient(100deg, #c9a227, #f7e55a 45%, #d9a62a);
     z-index: 3;
 }
 
 .pokemon-category {
     color: var(--color-main);
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 700;
     font-style: italic;
 }
 
 .card-stats {
     position: absolute;
-    top: 60%;
+    top: 59.7%;
     left: 14%;
     right: 14%;
     z-index: 3;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.45rem;
 }
 
 .stat-row {
@@ -197,7 +195,7 @@
     gap: 0.4rem;
     height: 0.7rem;
     color: var(--card-text);
-    font-size: 0.65rem;
+    font-size: 0.66rem;
     font-weight: 700;
     line-height: 1;
 }
@@ -229,7 +227,7 @@
 
 .card-size {
     position: absolute;
-    top: 88.5%;
+    top: 87.7%;
     left: 10%;
     right: 10%;
     height: 5.5%;
@@ -238,7 +236,7 @@
     align-items: center;
     justify-content: center;
     color: var(--card-text);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 700;
 }
 

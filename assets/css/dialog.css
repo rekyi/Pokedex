@@ -11,12 +11,24 @@
 }
 
 .pokemon-dialog[open] {
-    animation: dialog-in 0.35s ease;
+    animation: dialog-in 1s cubic-bezier(0.15, 1, 0.5, 1);
 }
 
 .pokemon-dialog::backdrop {
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(6px);
+}
+
+@keyframes dialog-in {
+    0% {
+        opacity: 0;
+        transform: translateY(2rem) scale(0.75);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .dialog-content {
@@ -36,15 +48,20 @@
     position: relative;
     width: min(100%, 13.4rem);
     aspect-ratio: 7 / 11;
-    margin-bottom: -4rem;
+    margin-bottom: -3.5rem;
     border-radius: 0.75rem;
     color: var(--card-text);
     box-shadow:
         0 0 1.5rem color-mix(in srgb, var(--glow) 70%, transparent),
         0 0 4rem color-mix(in srgb, var(--glow) 40%, transparent);
-    transform: perspective(37rem) rotateX(58deg);
+    transform: perspective(37rem) rotateX(53deg);
     transform-style: preserve-3d;
     animation: glow-pulse 6s ease-in-out infinite;
+
+    @media (min-width: 480px) {
+        transform: perspective(37rem) rotateX(60deg);
+        margin-bottom: -4.5rem;
+    }
 }
 
 .dialog-card-blank {
@@ -96,7 +113,7 @@
 
 .dialog-card-name {
     position: absolute;
-    top: 88.5%;
+    top: 87.5%;
     left: 10%;
     right: 10%;
     height: 5.5%;
@@ -107,12 +124,11 @@
     gap: 0.5rem;
     font-size: 1.1rem;
     font-weight: 700;
-    line-height: 1;
     text-transform: capitalize;
 
     @media (min-width: 480px) {
-        top: 88.8%;
-        font-size: 1.3rem;
+        top: 87.5%;
+        font-size: 1.4rem;
     }
 }
 
@@ -173,12 +189,17 @@
 .hologram-types {
     position: absolute;
     top: 22%;
-    left: -27%;
-    right: -27%;
+    left: -30%;
+    right: -30%;
     display: flex;
     justify-content: space-between;
     padding: 0;
     list-style: none;
+
+    @media (min-width: 480px) {
+        left: -27%;
+        right: -27%;
+    }
 }
 
 .hologram-type {
@@ -223,7 +244,7 @@
 
 .dialog-card-stage {
     position: absolute;
-    top: 53.8%;
+    top: 54%;
     left: 11.7%;
     right: 11.6%;
     height: 4%;
@@ -231,8 +252,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0.3rem;
-    background: linear-gradient(100deg, #c9a227, #f7e55a 45%, #d9a62a);
     color: var(--color-main);
     font-size: 0.85rem;
     font-style: italic;
@@ -305,8 +324,8 @@
 .prev-button,
 .next-button {
     position: relative;
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
     border: none;
     background: transparent;
     color: color-mix(in srgb, var(--color-text-main) 90%, transparent);
@@ -354,9 +373,12 @@
     font-weight: 700;
     letter-spacing: 0.2em;
     text-indent: 0.2em;
-    text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s ease;
+
+    @media (min-width: 480px) {
+        font-size: 1rem;
+    }
 }
 
 .close-dialog:hover {
@@ -376,18 +398,6 @@
     right: 0;
     transform: translateY(-50%);
     pointer-events: none;
-}
-
-@keyframes dialog-in {
-    0% {
-        opacity: 0;
-        transform: translateY(1rem) scale(0.96);
-    }
-
-    100% {
-        opacity: 1;
-        transform: none;
-    }
 }
 
 @keyframes glow-pulse {
