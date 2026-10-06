@@ -4,19 +4,16 @@ function pokemonGridTemplate(pokemon) {
     <button type="button" data-name="${pokemon.name}" class="pokemon-card card-${pokemon.cardElement}">
       <img class="pokemon-sprite ${pokemon.isPlaceholder ? "is-placeholder" : ""}" src="${pokemon.spriteSrc}" alt="${pokemon.name}" onerror="handleImgError(this)" />
       <img class="card-blank" src="assets/images/card_blanks/${pokemon.cardElement}_card.webp" alt="" />
-
       <span class="card-header">
         <span class="header-left">
           <span class="pokemon-name">${pokemon.displayName}</span>
           ${pokemon.formName ? `<span class="pokemon-form">${pokemon.formName}</span>` : ""}
         </span>
-
         <span class="header-right">
           <span class="pokemon-hp">${pokemon.hp}HP</span>
           <img class="pokemon-type-icon" src="assets/images/type_icons/${pokemon.cardElement}.webp" alt="${pokemon.type}" />
         </span>
       </span>
-
       <span class="card-species-bar">
         <span class="pokemon-category">${pokemon.species}</span>
       </span>
@@ -49,36 +46,33 @@ function pokemonDialogTemplate(pokemon) {
   return `
   <div class="dialog-scene" style="--glow: var(--element-${element})">
     <article class="dialog-card card-${element}">
-      <img class="dialog-card-blank" src="assets/images/card_blanks/${element}_card.webp" alt="" />
-
+      <div class="dialog-card-surface">
+        <img class="dialog-card-blank" src="assets/images/card_blanks/${element}_card.webp" alt="" />
+        <span class="dialog-card-stage">${pokemon.stage}</span>
+        <ul class="dialog-card-attacks">
+          ${pokemon.attacks
+            .map(
+              (attack) => `
+          <li class="dialog-card-attack">
+            <img class="dialog-attack-icon" src="assets/images/type_icons/${attack.element}.webp" alt="" />
+            <span class="dialog-attack-name">${attack.name}</span>
+            ${attack.power ? `<span class="dialog-attack-power">${attack.power}</span>` : ""}
+          </li>`,
+            )
+            .join("")}
+        </ul>
+        <h2 class="dialog-card-name">
+          ${pokemon.displayName}
+          ${pokemon.formName ? `<span class="dialog-card-form">${pokemon.formName}</span>` : ""}
+        </h2>
+      </div>
       <span class="dialog-card-id">#${pokemon.id}</span>
-
       <div class="hologram">
         <img class="hologram-sprite" src="${pokemon.spriteSrc}" alt="${pokemon.displayName}" onerror="handleImgError(this)" />
         <ul class="hologram-types">
           ${pokemon.types.map((type) => `<li class="hologram-type" style="--orb: var(--element-${type.element})"><img class="hologram-type-icon" src="assets/images/type_icons/${type.element}.webp" alt="${type.name}" /></li>`).join("")}
         </ul>
       </div>
-
-      <span class="dialog-card-stage">${pokemon.stage}</span>
-
-      <ul class="dialog-card-attacks">
-        ${pokemon.attacks
-          .map(
-            (attack) => `
-        <li class="dialog-card-attack">
-          <img class="dialog-attack-icon" src="assets/images/type_icons/${attack.element}.webp" alt="" />
-          <span class="dialog-attack-name">${attack.name}</span>
-          ${attack.power ? `<span class="dialog-attack-power">${attack.power}</span>` : ""}
-        </li>`,
-          )
-          .join("")}
-      </ul>
-
-      <h2 class="dialog-card-name">
-        ${pokemon.displayName}
-        ${pokemon.formName ? `<span class="dialog-card-form">${pokemon.formName}</span>` : ""}
-      </h2>
     </article>
   </div>`;
 }

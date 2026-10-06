@@ -98,7 +98,7 @@ async function getPokemonData() {
     loadingDiv.style.visibility = "visible";
   }
   try {
-    await delay(2000);
+    await delay(1500);
     await loadNextBatch();
   } catch (error) {
     console.error(error);

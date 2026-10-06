@@ -15,11 +15,22 @@
     width: 13rem;
     aspect-ratio: 7 / 11;
     border: none;
-    background: none;
+    background-color: var(--card-surface, #f3eee8);
+    border-radius: 0.45rem;
     cursor: pointer;
-    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.712);  maybe?*/
     overflow: hidden;
-    transition: transform 0.3s ease
+    transition: transform 0.3s ease;
+}
+
+.pokemon-card::before {
+    content: "";
+    position: absolute;
+    top: 12%;
+    left: 10.5%;
+    width: 79%;
+    height: 40.7%;
+    background: rgb(20, 20, 20);
+    z-index: 0;
 }
 
 .pokemon-card::after {
@@ -41,6 +52,22 @@
 
 .pokemon-card:hover {
     transform: translateY(-8px);
+}
+
+.pokemon-card:hover::after,
+.pokemon-card:focus-visible::after {
+    left: 170%;
+    transition: left 0.8s ease;
+}
+
+.pokemon-card:hover,
+.pokemon-card:focus-visible {
+    transform: translateY(-8px);
+}
+
+.pokemon-card:focus-visible {
+    outline: 2px solid #ef4444;
+    outline-offset: 3px;
 }
 
 .card-blank {
@@ -94,11 +121,6 @@
     height: 1.2rem;
 }
 
-/* .pokemon-id {
-    font-size: 0.75rem;
-    flex-shrink: 0;
-} */
-
 .pokemon-name {
     display: block;
     font-size: 0.9rem;
@@ -128,9 +150,7 @@
 .pokemon-hp {
     font-size: 0.8rem;
     white-space: nowrap;
-    color: var(--card-hp);
-    -webkit-text-stroke: 2px var(--hp-outline);
-    paint-order: stroke fill;
+    color: var(--card-text);
 }
 
 .pokemon-type-icon {
@@ -141,11 +161,15 @@
 
 .card-species-bar {
     position: absolute;
-    top: 52.7%;
-    left: 0;
-    right: 0;
+    top: 53.8%;
+    left: 11.7%;
+    right: 11.6%;
+    height: 4%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    border-radius: 0.3rem;
+    background: linear-gradient(100deg, #c9a227, #f7e55a 45%, #d9a62a);
     z-index: 3;
 }
 
